@@ -10,18 +10,9 @@ public class InputController : MonoBehaviour
 
     void Update()
     {
-        // 检测所有可能的按键
-        foreach (KeyCode key in hitKeys)
-        {
-            if (Input.GetKeyDown(key))
-            {
-                OnPlayerPress();
-                break;
-            }
-        }
 
         // 也支持鼠标点击
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             OnPlayerPress();
         }
@@ -47,6 +38,16 @@ public class InputController : MonoBehaviour
     {
         // 找到所有在判定区内的节奏点
         // 这里简化处理，实际应该通过列表查找
+        foreach (NoteController note in rhythmBar.activeNotes)
+        {
+            if(note.hasBeenJudged) continue; // 已经被判定过的点不再考虑
+            float distanceToJudge = Mathf.Abs(note.transform.position.x - rhythmBar.judgeArea.position.x);
+            if (distanceToJudge <= rhythmBar.judgeWidth)
+            {
+                return note;
+            }
+        }
+
         return null;
     }
 }

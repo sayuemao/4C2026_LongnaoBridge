@@ -5,7 +5,7 @@ using UnityEngine;
 // PileManager.cs - 木桩管理
 public class PileManager : MonoBehaviour
 {
-    public static PileManager Instance;
+    public static PileManager Instance { get; private set; }
 
     public Transform[] piles;           // 多个木桩
     public float[] pileHeights;          // 每个木桩的初始高度
@@ -14,8 +14,13 @@ public class PileManager : MonoBehaviour
 
     private int currentPileIndex = 0;     // 当前要夯的木桩
 
-    void Awake()
+    private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
@@ -42,7 +47,7 @@ public class PileManager : MonoBehaviour
             case JudgeAccuracy.Good:
                 downDistance *= 1f;
                 break;
-            case JudgeAccuracy.Ok:
+            case JudgeAccuracy.OK:
                 downDistance *= 0.5f;   // 还行下降少
                 break;
         }

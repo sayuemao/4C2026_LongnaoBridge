@@ -32,10 +32,12 @@ public class UIManager : MonoBehaviour
     public void ShowFloatingText(string text, Color color, Vector3? worldPos = null)
     {
         // 显示判定文字
+        //TextMeshProUGUI floatingText = Instantiate(floatingTextPrefab, transform);
     }
 
-    internal void ShowMissFeedback()
+    public void ShowMissFeedback()
     {
-        throw new NotImplementedException();
+        // 显示错过反馈
+        ShowFloatingText("Miss", Color.red);
     }
 }

@@ -13,11 +13,12 @@ public class RhythmBarController : MonoBehaviour
     public float noteSpeed = 2f;        // 节奏点移动速度
     public float judgeWidth = 0.5f;     // 判定区域宽度
 
-    private List<NoteController> activeNotes = new List<NoteController>();
+    public List<NoteController> activeNotes = new List<NoteController>();
 
     void Start()
     {
         StartCoroutine(SpawnNotes());
+        judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f; // 根据判定区宽度自动设置判定范围
     }
 
     IEnumerator SpawnNotes()
@@ -30,6 +31,7 @@ public class RhythmBarController : MonoBehaviour
             // 生成新的节奏点
             GameObject note = Instantiate(notePrefab, noteSpawnPoint.position, Quaternion.identity);
             NoteController nc = note.GetComponent<NoteController>();
+            nc.transform.SetParent(transform); // 让节奏点成为判定条的子对象
             nc.speed = noteSpeed;
             nc.judgeArea = judgeArea;
             nc.judgeWidth = judgeWidth;

@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum JudgeAccuracy
+{
+    Perfect,
+    Good,
+    OK,
+}
 // NoteController.cs - 单个节奏点
 public class NoteController : MonoBehaviour
 {
@@ -11,8 +17,8 @@ public class NoteController : MonoBehaviour
 
     public System.Action<NoteController> OnNoteMissed;
 
-    private bool hasBeenJudged = false;
-    private JudgeState currentState = JudgeState.Waiting;
+    public bool hasBeenJudged = false;
+
 
     enum JudgeState
     {
@@ -20,6 +26,27 @@ public class NoteController : MonoBehaviour
         InJudgeArea,    // 在判定区内
         Passed          // 已过判定区
     }
+    private JudgeState currentState = JudgeState.Waiting;
+
+    [Space]
+    [Header("销毁前的延迟时间")]
+    public float destroyDelay = 0.5f; // 销毁前的延迟时间
+
+    [Header("跳跃隐退参数")]
+    public float jumpHeight = 0.5f;          // 跳跃高度（世界单位）
+    public float retreatDistance = 1.0f;     // 向左退的距离（世界单位）
+    public float disappearDuration = 0.6f;   // 隐退消失动画时长（秒）
+
+    private SpriteRenderer rhythmBarSR;
+    private SpriteRenderer sr;//自己的SpriteRenderer
+    void Start()
+    {
+        rhythmBarSR = transform.parent.GetComponent<SpriteRenderer>();
+
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+
 
     void Update()
     {
@@ -41,7 +68,7 @@ public class NoteController : MonoBehaviour
         }
 
         // 超出左侧边界销毁
-        if (transform.position.x < judgeArea.position.x - 2f)
+        if (transform.position.x < rhythmBarSR.bounds.min.x - 2f)
         {
             Destroy(gameObject);
         }
@@ -78,7 +105,7 @@ public class NoteController : MonoBehaviour
         else if (distance <= judgeRange * 0.6f)
             return JudgeAccuracy.Good;
         else
-            return JudgeAccuracy.Ok;
+            return JudgeAccuracy.OK;
     }
 
     void OnJudged(JudgeAccuracy accuracy)
@@ -102,7 +129,7 @@ public class NoteController : MonoBehaviour
                 text = "不错";
                 color = Color.green;
                 break;
-            case JudgeAccuracy.Ok:
+            case JudgeAccuracy.OK:
                 text = "还行";
                 color = Color.cyan;
                 break;
@@ -114,7 +141,8 @@ public class NoteController : MonoBehaviour
         EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
 
         // 销毁节奏点
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        StartCoroutine(JumpRetreatDisappear());
     }
 
     void OnMissed()
@@ -129,15 +157,51 @@ public class NoteController : MonoBehaviour
         StartCoroutine(FadeOut());
     }
 
-    IEnumerator FadeOut()
+    IEnumerator FadeOut()// 渐隐消失协程
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        yield return new WaitForSeconds(destroyDelay); // 等待一段时间后开始渐隐
+
         float alpha = 1f;
 
         while (alpha > 0)
         {
             alpha -= Time.deltaTime * 3f;
-            sr.color = new Color(1, 1, 1, alpha);
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
+    IEnumerator JumpRetreatDisappear()
+    {
+        //yield return new WaitForSeconds(destroyDelay);
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = startPos + Vector3.left * retreatDistance; // 向左隐退
+        Vector3 startScale = transform.localScale;
+
+        float elapsed = 0f;
+
+        while (elapsed < disappearDuration)
+        {
+            float t = Mathf.Clamp01(elapsed / disappearDuration);
+
+            // X 线性向左退，Y 用正弦曲线制造抛物线跳跃效果
+            float x = Mathf.Lerp(startPos.x, endPos.x, t);
+            float y = startPos.y + Mathf.Sin(t * Mathf.PI) * jumpHeight;
+            transform.position = new Vector3(x, y, startPos.z);
+
+            // 透明度从 1 -> 0
+            float alpha = Mathf.Lerp(1f, 0f, t);
+            if (sr != null)
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+
+            // 轻微缩小增加消失感
+            float scale = Mathf.Lerp(1f, 0.85f, t);
+            transform.localScale = startScale * scale;
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
@@ -145,9 +209,4 @@ public class NoteController : MonoBehaviour
     }
 }
 
-public enum JudgeAccuracy
-{
-    Perfect,
-    Good,
-    Ok
-}
+

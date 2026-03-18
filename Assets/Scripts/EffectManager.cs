@@ -32,6 +32,7 @@ public class EffectManager : MonoBehaviour
 
     public void PlayHitEffect(Vector3 position, JudgeAccuracy accuracy)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        Debug.Log("未完成！！！！"+"播放击打特效，位置：" + position + "，判定结果：" + accuracy);
     }
 }
