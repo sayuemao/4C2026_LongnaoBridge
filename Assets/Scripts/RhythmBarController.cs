@@ -17,8 +17,8 @@ public class RhythmBarController : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnNotes());
         judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f; // 根据判定区宽度自动设置判定范围
+        StartCoroutine(SpawnNotes());
     }
 
     IEnumerator SpawnNotes()

@@ -36,6 +36,10 @@ public class PileManager : MonoBehaviour
 
     public void OnHitPile(JudgeAccuracy accuracy)
     {
+        if(GameManager.Instance.levelComplete)
+        {
+            return;
+        }
         // 根据判定决定下降多少
         float downDistance = hitDownAmount;
 
@@ -82,7 +86,7 @@ public class PileManager : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
             float y = Mathf.Lerp(startY, targetY, t);
-            pile.localPosition = new Vector3(pile.localPosition.x, y, 0);
+            pile.localPosition = new Vector3(pile.localPosition.x, y, pile.localPosition.z);
             yield return null;
         }
     }

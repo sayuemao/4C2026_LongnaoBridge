@@ -40,7 +40,7 @@ public class InputController : MonoBehaviour
         // 这里简化处理，实际应该通过列表查找
         foreach (NoteController note in rhythmBar.activeNotes)
         {
-            if(note.hasBeenJudged) continue; // 已经被判定过的点不再考虑
+            if (note.hasBeenJudged) continue; // 已经被判定过的点不再考虑
             float distanceToJudge = Mathf.Abs(note.transform.position.x - rhythmBar.judgeArea.position.x);
             if (distanceToJudge <= rhythmBar.judgeWidth)
             {
