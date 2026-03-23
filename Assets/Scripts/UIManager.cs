@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     public TextMeshProUGUI floatingTextPrefab;
+    public Transform floatingTextPosition;
+    public float floatingTextDestroyDelay = 1f;
+
+
     public Transform judgeBar;  // 判定条UI
     public RectTransform perfectZone; // 完美区域显示
 
@@ -32,7 +36,18 @@ public class UIManager : MonoBehaviour
     public void ShowFloatingText(string text, Color color, Vector3? worldPos = null)
     {
         // 显示判定文字
-        //TextMeshProUGUI floatingText = Instantiate(floatingTextPrefab, transform);
+        TextMeshProUGUI floatingText = Instantiate(floatingTextPrefab, floatingTextPosition);
+        floatingText.text = text;
+        floatingText.color = color;
+        if (worldPos.HasValue)
+        {
+            floatingText.transform.position = worldPos.Value;
+        }
+        else
+        {
+            floatingText.transform.position = floatingTextPosition.position;
+        }
+        Destroy(floatingText.gameObject, floatingTextDestroyDelay);
     }
 
     public void ShowMissFeedback()

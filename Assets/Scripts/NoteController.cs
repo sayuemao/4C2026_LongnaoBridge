@@ -30,7 +30,7 @@ public class NoteController : MonoBehaviour
 
     [Space]
     [Header("销毁前的延迟时间")]
-    public float destroyDelay = 0.5f; // 销毁前的延迟时间
+    public float destroyDelay = 0.1f; // 销毁前的延迟时间
 
     [Header("跳跃隐退参数")]
     public float jumpHeight = 0.5f;          // 跳跃高度（世界单位）
@@ -91,6 +91,8 @@ public class NoteController : MonoBehaviour
         else if (transform.position.x > judgeArea.position.x + judgeWidth)
         {
             // 按早了
+            hasBeenJudged = true;
+            StartCoroutine(FadeOut());
             UIManager.Instance.ShowFloatingText("按早了!", Color.red);
         }
         // 按晚了的情况由上面的OnMissed处理
@@ -135,7 +137,7 @@ public class NoteController : MonoBehaviour
                 break;
         }
 
-        UIManager.Instance.ShowFloatingText(text, color, transform.position);
+        UIManager.Instance.ShowFloatingText(text, color);
 
         // 特效
         EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
@@ -150,7 +152,7 @@ public class NoteController : MonoBehaviour
         if (hasBeenJudged) return;
 
         hasBeenJudged = true;
-        UIManager.Instance.ShowFloatingText("错过...", Color.gray, transform.position);
+        //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
         OnNoteMissed?.Invoke(this);
 
         // 渐隐消失

@@ -30,7 +30,11 @@ public class InputController : MonoBehaviour
         else
         {
             // 判定区没有节奏点，按空了
-            UIManager.Instance.ShowFloatingText("按早了!", Color.red);
+            NoteController firstNoteOutsideJudge = FindNoteFirstOutsideJudgeArea();
+            if (firstNoteOutsideJudge)
+            {
+                firstNoteOutsideJudge.OnPlayerPress();
+            }
         }
     }
 
@@ -48,6 +52,21 @@ public class InputController : MonoBehaviour
             }
         }
 
+        return null;
+    }
+
+    NoteController FindNoteFirstOutsideJudgeArea()
+    {
+        // 找到第一个在判定区外的节奏点
+        foreach (NoteController note in rhythmBar.activeNotes)
+        {
+            if (note.hasBeenJudged) continue; // 已经被判定过的点不再考虑
+            float distanceToJudge = note.transform.position.x - rhythmBar.judgeArea.position.x;
+            if (distanceToJudge > rhythmBar.judgeWidth)
+            {
+                return note;
+            }
+        }
         return null;
     }
 }

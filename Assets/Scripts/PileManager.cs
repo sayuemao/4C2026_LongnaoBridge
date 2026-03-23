@@ -71,7 +71,7 @@ public class PileManager : MonoBehaviour
         if (newHeight <= minHeight)
         {
             // 当前木桩夯实完成
-            OnPileCompleted(currentPileIndex);
+            OnPileCompleted();
         }
     }
 
@@ -91,7 +91,7 @@ public class PileManager : MonoBehaviour
         }
     }
 
-    void OnPileCompleted(int pileIndex)
+    void OnPileCompleted()
     {
         // 切换到下一个木桩
         currentPileIndex++;
@@ -104,14 +104,14 @@ public class PileManager : MonoBehaviour
         else
         {
             // 提示切换到下一个木桩
-            UIManager.Instance.ShowFloatingText($"下一个木桩！", Color.cyan);
-
+            //UIManager.Instance.ShowFloatingText($"下一个木桩！", Color.cyan);
+            Debug.Log($"下一个木桩！{currentPileIndex}"+"Complete!");
             // 可以在UI上高亮下一个要夯的木桩
-            HighlightPile(currentPileIndex);
+            HighlightPile();
         }
     }
 
-    void HighlightPile(int index)
+    void HighlightPile()
     {
         // 高亮当前木桩的逻辑
         for (int i = 0; i < piles.Length; i++)
