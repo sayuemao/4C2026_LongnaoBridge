@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,18 +9,20 @@ public class DragGameManager : MonoBehaviour
 {
     public static DragGameManager Instance { get; private set; }
 
+
     [SerializeField] private TMP_Text countdownText;   // ÍÏ×§UI Text½øÀ´
     private float Timer = 0;
-    
-    [SerializeField] private float dragCountDown1 = 0f;
-    [SerializeField] private float dragCountDown2 = 5f;
-    [SerializeField] int ImageCount = 3;
+
+    [SerializeField] private float dragCountDown1 = 10f;
+    [SerializeField] private float dragCountDown2 = 20f;
+    [SerializeField] int ImageCount = 5;
     public int currentdragCount = 0;
-    
+
     private int currentdragStage = 1;
 
     public bool IsdragGameStarted;
     public bool IsdragGameOver;
+    public bool IsdragGameWin;
 
     private void Awake()
     {
@@ -32,13 +35,18 @@ public class DragGameManager : MonoBehaviour
     }
     private void Start()
     {
-        Timer = dragCountDown1; 
-        IsdragGameOver = false;
+        RestartDragGame();
     }
 
     private void Update()
     {
-        if(currentdragStage==1)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RestartDragGame();
+            return;
+        }
+
+        if (currentdragStage == 1)
         {
             Timer -= Time.deltaTime;
             if (Timer <= 0)
@@ -51,7 +59,7 @@ public class DragGameManager : MonoBehaviour
             if (countdownText != null)
                 countdownText.text = "MemoryTime left:" + Mathf.CeilToInt(Timer);
         }
-        if (!IsdragGameOver&&currentdragStage==2)
+        if (!IsdragGameOver && currentdragStage == 2)
         {
             if (Timer <= 0f)
             {
@@ -67,7 +75,7 @@ public class DragGameManager : MonoBehaviour
             else
             {
                 IsdragGameOver = true;
-                countdownText.text = "Congratulations! You win!";
+                IsdragGameWin = true;
                 return;
             }
             if (Timer < 0f) Timer = 0f;
@@ -75,5 +83,23 @@ public class DragGameManager : MonoBehaviour
             if (countdownText != null)
                 countdownText.text = "RestoreTime left:" + Mathf.CeilToInt(Timer);
         }
+    }
+
+    private void RestartDragGame()
+    {
+        Timer = dragCountDown1;
+        currentdragStage = 1;
+        currentdragCount = 0;
+
+        IsdragGameOver = false;
+        IsdragGameWin = false;
+
+        if (countdownText != null)
+            countdownText.text = "MemoryTime left:" + Mathf.CeilToInt(Timer);
+        foreach (var item in FindObjectsOfType<DragItem>())
+            item.ResetSelf();
+
+        foreach (var t in FindObjectsOfType<TargetItem>())
+            t.ResetSelf();
     }
 }

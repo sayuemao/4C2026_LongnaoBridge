@@ -16,6 +16,14 @@ public class TargetItem : MonoBehaviour
         if (completeHide == false && DragGameManager.Instance.IsdragGameStarted)
         {
             spriteRenderer.enabled = false;
+            completeHide = true;
         }
+    }
+
+    public void ResetSelf()
+    {
+        completeHide = false;
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
     }
 }

@@ -702,13 +702,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 2116683022}
-  countDown1: 3
-  countDown2: 10
-  Timer: 20
+  dragCountDown1: 3
+  dragCountDown2: 5
   ImageCount: 3
-  currentCount: 0
-  IsGameStarted: 0
-  IsGameOver: 0
+  currentdragCount: 0
+  IsdragGameStarted: 0
+  IsdragGameOver: 0
 --- !u!4 &1021927606
 Transform:
   m_ObjectHideFlags: 0
