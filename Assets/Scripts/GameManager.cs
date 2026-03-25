@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public bool levelComplete = false;
 
     private void Awake()
     {
@@ -35,7 +36,8 @@ public class GameManager : MonoBehaviour
 
     public void LevelComplete()
     {
-        throw new NotImplementedException();
+        levelComplete = true;
+        Debug.Log("Level Complete");
     }
 
 
