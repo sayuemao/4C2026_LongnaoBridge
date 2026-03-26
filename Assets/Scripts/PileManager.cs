@@ -46,6 +46,9 @@ public class PileManager : MonoBehaviour
 
         // 生成初始木桩
         GenerateInitialPiles();
+
+        // 初始化高亮状态
+        HighlightPile();
     }
 
     // 生成初始木桩
@@ -134,6 +137,9 @@ public class PileManager : MonoBehaviour
 
         // 提示切换到下一个木桩
         Debug.Log($"下一个木桩！{currentPileIndex} Complete!");
+
+        // 更新高亮状态
+        HighlightPile();
 
         // 同时启动左移动画
         StartCoroutine(MoveAllPilesLeft());
@@ -277,6 +283,9 @@ public class PileManager : MonoBehaviour
         // 生成新的木桩在最右侧
         float lastPileX = piles[piles.Count - 1].localPosition.x;
         SpawnNewPile(lastPileX + pileSpawnOffset);
+
+        // 更新高亮状态（新木桩生成后）
+        HighlightPile();
 
         isMoving = false;
     }
