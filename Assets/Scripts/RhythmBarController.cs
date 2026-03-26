@@ -10,6 +10,11 @@ public class RhythmBarController : MonoBehaviour
     public Transform noteSpawnPoint;    // 生成点（右侧）
     public Transform noteDestroyPoint;  // 销毁点（左侧/判定区后）
 
+    [Header("节奏间隔参数")]
+    public float[] rhythmPattern = { 1f, 0.8f, 1.2f, 0.6f, 1f }; // 节奏间隔
+    public bool isRandomPattern = false; // 是否随机节奏间隔
+    public float minPattern;
+    public float maxPattern;
     public float noteSpeed = 2f;        // 节奏点移动速度
     public float judgeWidth = 0.5f;     // 判定区域宽度
 
@@ -23,7 +28,7 @@ public class RhythmBarController : MonoBehaviour
 
     IEnumerator SpawnNotes()
     {
-        float[] rhythmPattern = { 1f, 0.8f, 1.2f, 0.6f, 1f }; // 节奏间隔
+
         int patternIndex = 0;
 
         while (true)
@@ -38,9 +43,18 @@ public class RhythmBarController : MonoBehaviour
             nc.OnNoteMissed += HandleNoteMissed;  // 错过事件
             activeNotes.Add(nc);
 
-            // 等待下一个节奏点
-            yield return new WaitForSeconds(rhythmPattern[patternIndex]);
-            patternIndex = (patternIndex + 1) % rhythmPattern.Length;
+            // 等待下一个节奏点时间
+            if (isRandomPattern)
+            {
+                float randomDelay = Random.Range(minPattern, maxPattern);
+                yield return new WaitForSeconds(randomDelay);
+            }
+            else
+            {
+                yield return new WaitForSeconds(rhythmPattern[patternIndex]);
+                patternIndex = (patternIndex + 1) % rhythmPattern.Length;
+            }
+
         }
     }
 

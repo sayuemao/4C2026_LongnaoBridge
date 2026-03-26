@@ -19,9 +19,12 @@ public class PileManager : MonoBehaviour
     public float hitDownAmount = 0.2f;   // 每次打击下降距离
     public float minHeight = -2f;         // 最低高度（完全夯实）
 
-    private int currentPileIndex = 0;     // 当前要夯的木桩
+    private int currentPileIndex = 0;     // 当前木桩索引
     private Queue<Transform> pilePool = new Queue<Transform>();     // 木桩对象池
     private bool isMoving = false;        // 是否正在移动木桩
+
+    public Shader highlightShader;        // 高亮shader
+    private Dictionary<Transform, Material> originalMaterials = new Dictionary<Transform, Material>(); // 保存原始材质
 
     private void Awake()
     {
@@ -103,10 +106,11 @@ public class PileManager : MonoBehaviour
         float startY = pile.localPosition.y;
         float duration = 0.1f;
         float elapsed = 0;
+        float delta = Mathf.Min(Time.deltaTime, 0.033f);
 
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += delta;
             float t = elapsed / duration;
             float y = Mathf.Lerp(startY, targetY, t);
             pile.localPosition = new Vector3(pile.localPosition.x, y, pile.localPosition.z);
@@ -140,7 +144,41 @@ public class PileManager : MonoBehaviour
         // 高亮当前木桩的逻辑
         for (int i = 0; i < piles.Count; i++)
         {
-            // 设置高亮效果
+            if (!originalMaterials.ContainsKey(piles[i]))
+            {
+                Renderer renderer = piles[i].GetComponent<Renderer>();
+                if (renderer != null && renderer.material != null)
+                {
+                    originalMaterials[piles[i]] = renderer.material;
+                }
+            }
+
+            // 恢复原始材质
+            Renderer r = piles[i].GetComponent<Renderer>();
+            if (r != null && originalMaterials.ContainsKey(piles[i]))
+            {
+                r.material = originalMaterials[piles[i]];
+            }
+        }
+
+        // 高亮当前木桩
+        if (currentPileIndex >= 0 && currentPileIndex < piles.Count)
+        {
+            Transform currentPile = piles[currentPileIndex];
+            Renderer renderer = currentPile.GetComponent<Renderer>();
+
+            if (renderer != null && highlightShader != null)
+            {
+                Material highlightMaterial = new Material(highlightShader);
+
+                // 保持原始颜色，高亮颜色
+                if (originalMaterials.ContainsKey(currentPile))
+                {
+                    highlightMaterial.SetColor("_BaseColor", originalMaterials[currentPile].color);
+                }
+
+                renderer.material = highlightMaterial;
+            }
         }
     }
 
@@ -198,21 +236,22 @@ public class PileManager : MonoBehaviour
 
             if (i > 0)
             {
-                // 移动到前一个木桩的位置
-                targetPositions.Add(new Vector3(piles[i - 1].localPosition.x, piles[i].localPosition.y, piles[i].localPosition.z));
+                // 移动到前一个木桩的位置，使用pileHeights中的目标高度
+                targetPositions.Add(new Vector3(piles[i - 1].localPosition.x, pileHeights[i], piles[i].localPosition.z));
             }
             else
             {
-                // 第一个木桩向左移动一个偏移量
-                targetPositions.Add(new Vector3(piles[i].localPosition.x - pileSpawnOffset, piles[i].localPosition.y, piles[i].localPosition.z));
+                // 第一个木桩向左移动一个偏移量，使用pileHeights中的目标高度
+                targetPositions.Add(new Vector3(piles[i].localPosition.x - pileSpawnOffset, pileHeights[i], piles[i].localPosition.z));
             }
         }
 
         // 执行移动动画
         float elapsed = 0;
+        float delta = Mathf.Min(Time.deltaTime, 0.033f);
         while (elapsed < leftMoveDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += delta;
             float t = elapsed / leftMoveDuration;
 
             // 使用缓动函数，先快速后减缓
@@ -259,7 +298,21 @@ public class PileManager : MonoBehaviour
         for (int i = pilesToRemove.Count - 1; i >= 0; i--)
         {
             int index = pilesToRemove[i];
-            ReturnPileToPool(piles[index]);
+            Transform pileToRemove = piles[index];
+
+            // 恢复原始材质
+            if (originalMaterials.ContainsKey(pileToRemove))
+            {
+                Renderer renderer = pileToRemove.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    // 保持原始颜色
+                    renderer.material = originalMaterials[pileToRemove];
+                }
+                originalMaterials.Remove(pileToRemove);
+            }
+
+            ReturnPileToPool(pileToRemove);
             piles.RemoveAt(index);
             pileHeights.RemoveAt(index);
 

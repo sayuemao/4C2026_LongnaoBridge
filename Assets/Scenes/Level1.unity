@@ -690,6 +690,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 520}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1755304716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755304717}
+  m_Layer: 0
+  m_Name: DetectPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755304717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755304716}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.3, y: -2.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927027021
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,13 +768,14 @@ MonoBehaviour:
   pilePrefab: {fileID: 1357530543393864694, guid: 282bbc28b1a993344b02261c38631aed, type: 3}
   pileSpawnOffset: 4
   leftMoveDuration: 0.5
-  destroyPositionX: -5
+  destroyPositionX: -10
   maxPilesOnScreen: 5
   pileSpawnPoint: {fileID: 4364251656093005135}
   piles: []
   pileHeights: []
   hitDownAmount: 1.8
   minHeight: -4.5
+  highlightShader: {fileID: 4800000, guid: acd3da086149cf549a3ee714cd863b11, type: 3}
 --- !u!1 &1936015226
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +831,7 @@ Transform:
   m_GameObject: {fileID: 7829281046213905748}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.57, y: -4.91, z: 0}
+  m_LocalPosition: {x: -2.46, y: -4.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -889,3 +921,4 @@ SceneRoots:
   - {fileID: 879212578}
   - {fileID: 63967876}
   - {fileID: 4364251656093005135}
+  - {fileID: 1755304717}
