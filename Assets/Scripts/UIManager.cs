@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 // UIManager.cs - UI管理
 public class UIManager : MonoBehaviour
 {
@@ -17,9 +17,13 @@ public class UIManager : MonoBehaviour
     public Transform judgeBar;  // 判定条UI
     public RectTransform perfectZone; // 完美区域显示
 
+    public Image reflectImage; // 小方块显示判定结果
+    private Color defaultReflectColor;
+    public float reflectImageDuration = 0.5f;
+    private Coroutine reflectImageCoroutine;
     private void Awake()
     {
-        if(Instance!= null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -27,6 +31,10 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    void Start()
+    {
+        defaultReflectColor = reflectImage.color;
+    }
     public void SetupJudgeBar()
     {
         // 设置判定区域的视觉
@@ -48,11 +56,29 @@ public class UIManager : MonoBehaviour
             floatingText.transform.position = floatingTextPosition.position;
         }
         Destroy(floatingText.gameObject, floatingTextDestroyDelay);
+
+        ShowReflectImage(color, reflectImageDuration);
     }
 
     public void ShowMissFeedback()
     {
         // 显示错过反馈
         ShowFloatingText("Miss", Color.red);
+    }
+
+    public void ShowReflectImage(Color color, float duration = 0.5f)
+    {
+        if (reflectImageCoroutine != null)
+        {
+            StopCoroutine(reflectImageCoroutine);
+        }
+        reflectImageCoroutine = StartCoroutine(ShowReflectImageCoroutine(color, duration));
+    }
+    private IEnumerator ShowReflectImageCoroutine(Color color, float duration = 0.5f)
+    {
+        // 显示小方块反馈颜色       
+        reflectImage.color = color;
+        yield return new WaitForSeconds(duration);
+        reflectImage.color = defaultReflectColor;
     }
 }
