@@ -13,6 +13,10 @@ public class TargetItem : MonoBehaviour
 
     void Update()
     {
+        if(DragGameManager.Instance==null)
+        {
+            return;
+        }
         if (completeHide == false && DragGameManager.Instance.IsdragGameStarted)
         {
             spriteRenderer.enabled = false;

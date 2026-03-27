@@ -5,7 +5,6 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     [SerializeField] private string pillarTag = "Pillar";
-    [SerializeField] private float fallSpeed = 3f;
     [SerializeField] private float autoClearAfterFallingSeconds = 10f;
 
     public event Action<Board> Landed;
