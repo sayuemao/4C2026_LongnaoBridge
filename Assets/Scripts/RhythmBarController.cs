@@ -33,15 +33,20 @@ public class RhythmBarController : MonoBehaviour
 
         while (true)
         {
-            // 生成新的节奏点
-            GameObject note = Instantiate(notePrefab, noteSpawnPoint.position, Quaternion.identity);
+            // 从对象池获取节奏点
+            GameObject note = ObjectPoolManager.Instance.GetObject(notePrefab);
+
             NoteController nc = note.GetComponent<NoteController>();
-            nc.transform.SetParent(transform); // 让节奏点成为判定条的子对象
+            nc.transform.SetParent(transform, false); // 保持世界空间变换不变，避免缩放受父对象影响
             nc.speed = noteSpeed;
             nc.judgeArea = judgeArea;
             nc.judgeWidth = judgeWidth;
             nc.OnNoteMissed += HandleNoteMissed;  // 错过事件
             activeNotes.Add(nc);
+            
+            note.transform.position = noteSpawnPoint.position;
+            note.transform.rotation = Quaternion.identity;
+            
 
             // 等待下一个节奏点时间
             if (isRandomPattern)
