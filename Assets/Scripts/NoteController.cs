@@ -39,14 +39,33 @@ public class NoteController : MonoBehaviour
 
     private SpriteRenderer rhythmBarSR;
     private SpriteRenderer sr;//自己的SpriteRenderer
+
+    private Vector3 originalScale;
+    private Color originalColor;
+    void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        originalScale = transform.localScale;
+        originalColor = sr.color;
+    }
+
     void Start()
     {
         rhythmBarSR = transform.parent.GetComponent<SpriteRenderer>();
-
-        sr = GetComponent<SpriteRenderer>();
     }
 
+    void OnEnable()
+    {
+        hasBeenJudged = false;
+        currentState = JudgeState.Waiting;
+        transform.localScale = originalScale;
+        sr.color = originalColor;
+    }
 
+    void OnDisable()
+    {
+        OnNoteMissed = null;
+    }
 
     void Update()
     {
@@ -67,10 +86,10 @@ public class NoteController : MonoBehaviour
             OnMissed();
         }
 
-        // 超出左侧边界销毁
+        // 超出左侧边界回收
         if (transform.position.x < rhythmBarSR.bounds.min.x - 2f)
         {
-            Destroy(gameObject);
+            ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
     }
 
@@ -172,7 +191,7 @@ public class NoteController : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        ObjectPoolManager.Instance.ReturnObject(gameObject);
     }
 
     IEnumerator JumpRetreatDisappear()
@@ -207,7 +226,7 @@ public class NoteController : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        ObjectPoolManager.Instance.ReturnObject(gameObject);
     }
 }
 
