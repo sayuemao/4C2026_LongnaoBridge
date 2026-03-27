@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public Transform floatingTextPosition;
     public float floatingTextDestroyDelay = 1f;
 
+    public Transform missShowPosition; // 错过反馈显示位置
 
     public Transform judgeBar;  // 判定条UI
     public RectTransform perfectZone; // 完美区域显示
@@ -63,7 +64,7 @@ public class UIManager : MonoBehaviour
     public void ShowMissFeedback()
     {
         // 显示错过反馈
-        ShowFloatingText("Miss", Color.red);
+        ShowFloatingText("Miss", Color.red, missShowPosition.position);
     }
 
     public void ShowReflectImage(Color color, float duration = 0.5f)

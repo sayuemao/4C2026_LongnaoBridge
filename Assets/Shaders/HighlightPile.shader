@@ -5,8 +5,8 @@ Shader "Custom/HighlightPile"
         _MainTex ("Sprite Texture", 2D) = "white" {}
         _GlowColor ("Glow Color", Color) = (1, 0.9, 0.2, 1) // ½ð»ÆÉ«
         _BlinkSpeed ("Blink Speed", Range(0.1, 10)) = 2.0
-        _EdgeWidth ("Edge Width", Range(0.001, 0.02)) = 0.005
-        _EdgeThreshold ("Edge Threshold", Range(0.1, 0.9)) = 0.5
+        _EdgeWidth ("Edge Width", Range(0.001, 0.02)) = 0.001
+        _EdgeThreshold ("Edge Threshold", Range(0.1, 0.9)) = 0.4
     }
     SubShader
     {
