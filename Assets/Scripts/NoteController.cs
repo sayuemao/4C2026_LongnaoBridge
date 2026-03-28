@@ -19,6 +19,7 @@ public class NoteController : MonoBehaviour
 
     public bool hasBeenJudged = false;
 
+    private Transform startJudgePoint ;
 
     enum JudgeState
     {
@@ -52,6 +53,7 @@ public class NoteController : MonoBehaviour
     void Start()
     {
         rhythmBarSR = transform.parent.GetComponent<SpriteRenderer>();
+        startJudgePoint =transform.parent.GetComponent<RhythmBarController>().startJudgePoint;
     }
 
     void OnEnable()
@@ -97,6 +99,15 @@ public class NoteController : MonoBehaviour
     public void OnPlayerPress()
     {
         if (hasBeenJudged) return;
+
+        // 获取开始判定点的位置
+        float startJudgeX = startJudgePoint.position.x;
+        
+        // 如果节奏点还没到达开始判定点，不做任何处理
+        if (transform.position.x > startJudgeX)
+        {
+            return;
+        }
 
         // 计算判定结果
         float distanceToJudgeCenter = Mathf.Abs(transform.position.x - judgeArea.position.x);
