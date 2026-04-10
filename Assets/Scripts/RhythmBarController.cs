@@ -6,6 +6,7 @@ using UnityEngine;
 public class RhythmBarController : MonoBehaviour
 {
     public Transform judgeArea;        // 判定区域（固定位置）
+    public Transform startJudgePoint;
     public GameObject notePrefab;       // 节奏点预制体
     public Transform noteSpawnPoint;    // 生成点（右侧）
     public Transform noteDestroyPoint;  // 销毁点（左侧/判定区后）
@@ -17,6 +18,7 @@ public class RhythmBarController : MonoBehaviour
     public float maxPattern;
     public float noteSpeed = 2f;        // 节奏点移动速度
     public float judgeWidth = 0.5f;     // 判定区域宽度
+
 
     public List<NoteController> activeNotes = new List<NoteController>();
 
@@ -43,10 +45,10 @@ public class RhythmBarController : MonoBehaviour
             nc.judgeWidth = judgeWidth;
             nc.OnNoteMissed += HandleNoteMissed;  // 错过事件
             activeNotes.Add(nc);
-            
+
             note.transform.position = noteSpawnPoint.position;
             note.transform.rotation = Quaternion.identity;
-            
+
 
             // 等待下一个节奏点时间
             if (isRandomPattern)
