@@ -12,7 +12,7 @@ public class DragItem : MonoBehaviour
 
     private Transform startParent;
 
-    void Start()
+    void Awake()
     {
         startPos = transform.position;
         normalScale = transform.localScale;
@@ -33,6 +33,7 @@ public class DragItem : MonoBehaviour
         if (isFinished) return;
         if(DragGameManager.Instance.IsdragGameOver) return;
         if (!DragGameManager.Instance.IsdragGameStarted) return;
+        if(DragGameManager.Instance.isPaused) return;
 
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorld.z = transform.position.z; // 保持原本z，避免被相机z影响
@@ -44,6 +45,8 @@ public class DragItem : MonoBehaviour
         if (isFinished) return;
         if (DragGameManager.Instance.IsdragGameOver) return;
         if (!DragGameManager.Instance.IsdragGameStarted) return;
+        if (DragGameManager.Instance.isPaused) return;
+
         transform.localScale = normalScale * multiplyer;
     }
 

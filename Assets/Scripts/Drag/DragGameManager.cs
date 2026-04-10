@@ -1,3 +1,4 @@
+using Fungus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,8 +10,10 @@ public class DragGameManager : MonoBehaviour
 {
     public static DragGameManager Instance { get; private set; }
 
+    [SerializeField] private Flowchart flowchart;
+    [SerializeField] private string startBlockName = "Level2-1";
 
-    [SerializeField] private TMP_Text countdownText;   // ÍÏ×§UI Text½øÀ´
+    [SerializeField] private TMP_Text countdownText;   
     private float Timer = 0;
 
     [SerializeField] private float dragCountDown1 = 10f;
@@ -19,6 +22,8 @@ public class DragGameManager : MonoBehaviour
     public int currentdragCount = 0;
 
     private int currentdragStage = 1;
+
+    public bool isPaused = false;
 
     public bool IsdragGameStarted;
     public bool IsdragGameOver;
@@ -36,6 +41,7 @@ public class DragGameManager : MonoBehaviour
     private void Start()
     {
         RestartDragGame();
+        flowchart.ExecuteBlock(startBlockName);
     }
 
     private void Update()
@@ -45,7 +51,10 @@ public class DragGameManager : MonoBehaviour
             RestartDragGame();
             return;
         }
-
+        if (isPaused)
+        {
+            return;
+        }
         if (currentdragStage == 1)
         {
             Timer -= Time.deltaTime;
@@ -91,6 +100,7 @@ public class DragGameManager : MonoBehaviour
         currentdragStage = 1;
         currentdragCount = 0;
 
+        IsdragGameStarted= false;
         IsdragGameOver = false;
         IsdragGameWin = false;
 
@@ -101,5 +111,13 @@ public class DragGameManager : MonoBehaviour
 
         foreach (var t in FindObjectsOfType<TargetItem>())
             t.ResetSelf();
+    }
+    public void PauseGame()
+    {
+        isPaused = true;
+    }
+    public void StopPauseGame()
+    {
+        isPaused = false;
     }
 }

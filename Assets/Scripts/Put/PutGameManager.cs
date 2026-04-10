@@ -1,7 +1,8 @@
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class PutGameManager : MonoBehaviour
 {
@@ -28,13 +29,20 @@ public class PutGameManager : MonoBehaviour
     [SerializeField] private TMP_Text countdownText;
     [SerializeField] private float countdownSeconds = 20f;
 
+    [SerializeField] private Flowchart flowchart;
+    [SerializeField] private string startBlockName = "Level2-2";
+    [SerializeField] private string endBlockName = "";
+
     private float remainingSeconds;
 
     private Board currentBoard;
     private Coroutine spawnCoroutine;
 
+    public bool isPaused = false;
     public bool isBegin = false;
     public bool isGameOver = false;
+    public bool finishOverTextShowed = false;
+    
 
     private bool canDrop = true;
 
@@ -52,9 +60,18 @@ public class PutGameManager : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused) return;
         CheckStart();
         CountDown();
-        if (isGameOver) return;
+        if (isGameOver)
+        {
+                if (!finishOverTextShowed)
+                {
+                    flowchart.ExecuteBlock(endBlockName);
+                    finishOverTextShowed = true;
+            }
+            return;
+        }
         CheckInput();
     }
     private void FixedUpdate()
@@ -96,6 +113,7 @@ public class PutGameManager : MonoBehaviour
             UpdateCountdownText();
 
             SpawnBoard();
+            flowchart.ExecuteBlock(startBlockName);
             if (pillars != null)
             {
                 pillarBaseX = new float[pillars.Length];
@@ -105,7 +123,6 @@ public class PutGameManager : MonoBehaviour
                 {
                     pillarBaseX[i] = pillars[i].position.x;
 
-                    // 关键：柱子要有 Rigidbody2D（Kinematic），移动用 MovePosition
                     pillarBodies[i] = pillars[i].GetComponent<Rigidbody2D>();
                     if (pillarBodies[i] != null)
                         pillarBodies[i].bodyType = RigidbodyType2D.Kinematic;
@@ -237,5 +254,13 @@ public class PutGameManager : MonoBehaviour
 
         SpawnBoard();
         spawnCoroutine = null;
+    }
+    public void PauseGame()
+    {
+        isPaused = true;
+    }
+    public void StopPauseGame()
+    {
+        isPaused = false;
     }
 }
