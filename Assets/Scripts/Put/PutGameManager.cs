@@ -29,9 +29,7 @@ public class PutGameManager : MonoBehaviour
     [SerializeField] private TMP_Text countdownText;
     [SerializeField] private float countdownSeconds = 20f;
 
-    [SerializeField] private Flowchart flowchart;
-    [SerializeField] private string startBlockName = "Level2-2";
-    [SerializeField] private string endBlockName = "";
+
 
     private float remainingSeconds;
 
@@ -67,7 +65,6 @@ public class PutGameManager : MonoBehaviour
         {
                 if (!finishOverTextShowed)
                 {
-                    flowchart.ExecuteBlock(endBlockName);
                     finishOverTextShowed = true;
             }
             return;
@@ -113,7 +110,6 @@ public class PutGameManager : MonoBehaviour
             UpdateCountdownText();
 
             SpawnBoard();
-            flowchart.ExecuteBlock(startBlockName);
             if (pillars != null)
             {
                 pillarBaseX = new float[pillars.Length];

@@ -10,8 +10,6 @@ public class DragGameManager : MonoBehaviour
 {
     public static DragGameManager Instance { get; private set; }
 
-    [SerializeField] private Flowchart flowchart;
-    [SerializeField] private string startBlockName = "Level2-1";
 
     [SerializeField] private TMP_Text countdownText;   
     private float Timer = 0;
@@ -41,7 +39,6 @@ public class DragGameManager : MonoBehaviour
     private void Start()
     {
         RestartDragGame();
-        flowchart.ExecuteBlock(startBlockName);
     }
 
     private void Update()
