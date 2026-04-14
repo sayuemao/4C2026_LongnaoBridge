@@ -9,7 +9,7 @@ public class PutGameManager : MonoBehaviour
     public static PutGameManager Instance { get; private set; }
 
     [SerializeField] private Transform boardSpawnPoint;
-    [SerializeField] private Board boardPrefab;
+    [SerializeField] private Board[] boardPrefabs;
 
     [SerializeField] private float spawnDelayAfterSettle = 2f;
 
@@ -207,7 +207,10 @@ public class PutGameManager : MonoBehaviour
 
     private void SpawnBoard()
     {
-        if (boardPrefab == null || boardSpawnPoint == null) return;
+        if (boardPrefabs == null || boardPrefabs.Length == 0 || boardSpawnPoint == null) return;
+
+        int randomIndex = Random.Range(0, boardPrefabs.Length);
+        Board boardPrefab = boardPrefabs[randomIndex];
 
         currentBoard = Instantiate(boardPrefab, boardSpawnPoint.position, boardSpawnPoint.rotation);
         currentBoard.Landed += OnBoardLanded;
