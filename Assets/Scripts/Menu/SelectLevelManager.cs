@@ -47,6 +47,7 @@ public class SelectLevelManager : MonoBehaviour
             levelPlayDescriptions[levelNumber - 1].gameObject.SetActive(true);
             nowLevelNumber = levelNumber;
         }
+        //更新按钮样式
         for (int i = 0; i < levelButtons.Length; i++)
         {
             if (i != nowLevelNumber-1)
