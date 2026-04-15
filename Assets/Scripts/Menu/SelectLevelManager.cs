@@ -15,10 +15,13 @@ public class SelectLevelManager : MonoBehaviour
     public Text[] levelNames;
     public Text[] levelDescriptions;
     public Text[] levelPlayDescriptions;
+
+    public Image level3Decoration;
     public LevelData levelData;
     // Start is called before the first frame update
     void Start()
     {
+        SceneTransitionManager.Instance.PlayFadeOut();
         SelectLevelButton(nowLevelNumber);
     }
 
@@ -46,6 +49,15 @@ public class SelectLevelManager : MonoBehaviour
             levelDescriptions[levelNumber - 1].gameObject.SetActive(true);
             levelPlayDescriptions[levelNumber - 1].gameObject.SetActive(true);
             nowLevelNumber = levelNumber;
+
+            if (levelNumber == 3)
+            {
+                level3Decoration.gameObject.SetActive(true);
+            }
+            else
+            {
+                level3Decoration.gameObject.SetActive(false);
+            }
         }
         //更新按钮样式
         for (int i = 0; i < levelButtons.Length; i++)
@@ -87,17 +99,17 @@ public class SelectLevelManager : MonoBehaviour
     public void EnterLevel1()
     {
         Debug.Log("Enter Level 1");
-        SceneManager.LoadScene("Level1");
+        SceneTransitionManager.Instance.TransitionToScene("Level1");
     }
 
     public void EnterLevel2()
     {
         Debug.Log("Enter Level 2");
-        SceneManager.LoadScene("Level2");
+        SceneTransitionManager.Instance.TransitionToScene("Level2");
     }
     public void EnterLevel3()
     {
         Debug.Log("Enter Level 3");
-        SceneManager.LoadScene("Level3_1");
+        SceneTransitionManager.Instance.TransitionToScene("Level3_1");
     }
 }
