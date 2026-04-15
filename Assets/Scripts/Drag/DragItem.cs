@@ -53,17 +53,22 @@ public class DragItem : MonoBehaviour
     private void OnMouseExit()
     {
         if (isFinished) return;
+        if (DragGameManager.Instance.IsdragGameOver) return;
+        if (!DragGameManager.Instance.IsdragGameStarted) return;
+        if (DragGameManager.Instance.isPaused) return;
         transform.localScale = normalScale;
     }
 
     private void OnMouseUp()
     {
         if (isFinished) return;
-
+        if (DragGameManager.Instance.IsdragGameOver) return;
+        if (!DragGameManager.Instance.IsdragGameStarted) return;
+        if (DragGameManager.Instance.isPaused) return;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 target2D = targetPos.position;
 
-        if (Vector2.Distance(mousePos, target2D) < 0.5f)
+        if (Vector2.Distance(mousePos, target2D) < 1f)
         {
             Vector3 snapped = targetPos.position;
             snapped.z = transform.position.z;

@@ -23,9 +23,9 @@ public class DragGameManager : MonoBehaviour
 
     public bool isPaused = false;
 
-    public bool IsdragGameStarted;
-    public bool IsdragGameOver;
-    public bool IsdragGameWin;
+    public bool IsdragGameStarted=false;
+    public bool IsdragGameOver = false;
+    public bool IsdragGameWin = false;
 
     private void Awake()
     {

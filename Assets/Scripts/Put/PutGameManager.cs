@@ -78,7 +78,7 @@ public class PutGameManager : MonoBehaviour
     }
     private void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && currentBoard != null && canDrop)
+        if (Input.GetMouseButtonDown(0) && currentBoard != null && canDrop)
         {
             canDrop = false;
             currentBoard.StartFalling();
