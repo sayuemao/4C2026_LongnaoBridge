@@ -23,10 +23,15 @@ public class MainMenuController : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            StartCoroutine(SelectLevel());
+            
+            EnterSelectLevel();
         }
     }
 
+    void EnterSelectLevel()
+    {
+        StartCoroutine(SelectLevel());
+    }
     IEnumerator SelectLevel()
     {
         yield return StartCoroutine(FadeIn());
