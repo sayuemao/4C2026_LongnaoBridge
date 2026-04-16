@@ -32,6 +32,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         StartCoroutine(FadeOut());
         fadeInPanel.gameObject.SetActive(false);
+        fadeOutPanel.gameObject.SetActive(false);
     }
 
     public void TransitionToScene(string sceneName)
@@ -76,6 +77,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void PlayFadeOut()
     {
+        fadeInPanel.gameObject.SetActive(false);
         StartCoroutine(FadeOut());
     }
 }

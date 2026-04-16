@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 保持在场景切换时不被销毁
+            //DontDestroyOnLoad(gameObject); // 保持在场景切换时不被销毁
         }
         else
         {
@@ -25,7 +26,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.PlayFadeOut();
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +42,14 @@ public class GameManager : MonoBehaviour
     {
         levelComplete = true;
         Debug.Log("Level Complete");
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
     }
 
 

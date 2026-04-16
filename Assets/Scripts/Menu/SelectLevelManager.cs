@@ -21,7 +21,10 @@ public class SelectLevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneTransitionManager.Instance.PlayFadeOut();
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.PlayFadeOut();
+        }
         SelectLevelButton(nowLevelNumber);
     }
 
@@ -99,17 +102,38 @@ public class SelectLevelManager : MonoBehaviour
     public void EnterLevel1()
     {
         Debug.Log("Enter Level 1");
-        SceneTransitionManager.Instance.TransitionToScene("Level1");
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("Level1");
+        }
+        else
+        {
+            SceneManager.LoadScene("Level1");
+        }
     }
 
     public void EnterLevel2()
     {
         Debug.Log("Enter Level 2");
-        SceneTransitionManager.Instance.TransitionToScene("Level2");
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("Level2");
+        }
+        else
+        {
+            SceneManager.LoadScene("Level2");
+        }
     }
     public void EnterLevel3()
     {
         Debug.Log("Enter Level 3");
-        SceneTransitionManager.Instance.TransitionToScene("Level3_1");
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("Level3_1");
+        }
+        else
+        {
+            SceneManager.LoadScene("Level3_1");
+        }
     }
 }
