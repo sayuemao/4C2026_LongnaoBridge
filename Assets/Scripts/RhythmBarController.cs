@@ -19,12 +19,14 @@ public class RhythmBarController : MonoBehaviour
     public float noteSpeed = 2f;        // 节奏点移动速度
     public float judgeWidth = 0.5f;     // 判定区域宽度
 
-
+    [Header("判定区域宽容区域")]
+    public float judgeOffset = 0.3f; // 判定区域偏移量
     public List<NoteController> activeNotes = new List<NoteController>();
 
     void Start()
     {
-        judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f; // 根据判定区宽度自动设置判定范围
+        // 初始化判定区域宽度（根据SpriteRenderer组件）
+        judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f + judgeOffset; // 根据判定区宽度自动设置判定范围
         StartCoroutine(SpawnNotes());
     }
 
@@ -39,7 +41,7 @@ public class RhythmBarController : MonoBehaviour
             GameObject note = ObjectPoolManager.Instance.GetObject(notePrefab);
 
             NoteController nc = note.GetComponent<NoteController>();
-            nc.transform.SetParent(transform, false); // 保持世界空间变换不变，避免缩放受父对象影响
+            nc.transform.SetParent(transform); // 保持世界空间变换不变，避免缩放受父对象影响
             nc.speed = noteSpeed;
             nc.judgeArea = judgeArea;
             nc.judgeWidth = judgeWidth;
@@ -49,6 +51,7 @@ public class RhythmBarController : MonoBehaviour
             note.transform.position = noteSpawnPoint.position;
             note.transform.rotation = Quaternion.identity;
 
+            //nc.sr.sprite = nc.noteSprites[0];
 
             // 等待下一个节奏点时间
             if (isRandomPattern)
