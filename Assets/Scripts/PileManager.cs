@@ -15,6 +15,7 @@ public class PileManager : MonoBehaviour
 
     public Transform pileSpawnPoint;
     public List<Transform> piles = new List<Transform>();           // 多个木桩
+    public Sprite[] pileSprites;                                    // 木桩精灵数组
     public List<float> pileHeights = new List<float>();              // 每个木桩的初始高度
     public float hitDownAmount = 0.2f;   // 每次打击下降距离
     public float minHeight = -2f;         // 最低高度（完全夯实）
@@ -201,6 +202,7 @@ public class PileManager : MonoBehaviour
 
         if (newPile != null)
         {
+            newPile.GetComponent<SpriteRenderer>().sprite = pileSprites[Random.Range(0, pileSprites.Length)];
             newPile.localPosition = new Vector3(spawnX, 0, 0);
             newPile.gameObject.SetActive(true);
             piles.Add(newPile);

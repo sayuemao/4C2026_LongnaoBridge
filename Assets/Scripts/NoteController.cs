@@ -21,6 +21,8 @@ public class NoteController : MonoBehaviour
 
     private Transform startJudgePoint ;
 
+    private Transform endJudgePoint ;
+
     enum JudgeState
     {
         Waiting,        // 还没到判定区
@@ -39,7 +41,9 @@ public class NoteController : MonoBehaviour
     public float disappearDuration = 0.6f;   // 隐退消失动画时长（秒）
 
     private SpriteRenderer rhythmBarSR;
-    private SpriteRenderer sr;//自己的SpriteRenderer
+    public SpriteRenderer sr;//自己的SpriteRenderer
+
+    public Sprite[] noteSprites;
 
     private Vector3 originalScale;
     private Color originalColor;
@@ -54,12 +58,14 @@ public class NoteController : MonoBehaviour
     {
         rhythmBarSR = transform.parent.GetComponent<SpriteRenderer>();
         startJudgePoint =transform.parent.GetComponent<RhythmBarController>().startJudgePoint;
+        endJudgePoint = transform.parent.GetComponent<RhythmBarController>().noteDestroyPoint;
     }
 
     void OnEnable()
     {
         hasBeenJudged = false;
         currentState = JudgeState.Waiting;
+        sr.sprite = noteSprites[0];
         transform.localScale = originalScale;
         sr.color = originalColor;
     }
@@ -89,7 +95,7 @@ public class NoteController : MonoBehaviour
         }
 
         // 超出左侧边界回收
-        if (transform.position.x < rhythmBarSR.bounds.min.x - 2f)
+        if (transform.position.x < endJudgePoint.position.x)
         {
             ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
@@ -118,13 +124,13 @@ public class NoteController : MonoBehaviour
             JudgeAccuracy accuracy = GetAccuracy(distanceToJudgeCenter);
             OnJudged(accuracy);
         }
-        else if (transform.position.x > judgeArea.position.x + judgeWidth)
-        {
-            // 按早了
-            hasBeenJudged = true;
-            StartCoroutine(FadeOut());
-            UIManager.Instance.ShowFloatingText("按早了!", Color.red);
-        }
+        // else if (transform.position.x > judgeArea.position.x + judgeWidth)
+        // {
+        //     // 按早了
+        //     hasBeenJudged = true;
+        //     StartCoroutine(FadeOut());
+        //     UIManager.Instance.ShowFloatingText("按早了!", Color.red);
+        // }
         // 按晚了的情况由上面的OnMissed处理
     }
 
@@ -174,7 +180,9 @@ public class NoteController : MonoBehaviour
 
         // 销毁节奏点
         //Destroy(gameObject);
-        StartCoroutine(JumpRetreatDisappear());
+        //StartCoroutine(JumpRetreatDisappear());
+        sr.sprite = noteSprites[1];
+        StartCoroutine(FadeOut());
     }
 
     void OnMissed()
@@ -185,6 +193,7 @@ public class NoteController : MonoBehaviour
         //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
         OnNoteMissed?.Invoke(this);
 
+        sr.sprite = noteSprites[2];
         // 渐隐消失
         StartCoroutine(FadeOut());
     }
