@@ -52,5 +52,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
+    }
 }

@@ -55,9 +55,10 @@ public class UIManager : MonoBehaviour
     private void ShowCountdown()
     {
         // 显示倒计时
-        if (countdownTime <= 0)
+        if (countdownTime < 0)
         {
             countdownTime = 0;
+            TimeOut();
         }
         int fenzhong = (int)countdownTime / 60;
         int seconds = (int)countdownTime % 60;
@@ -68,7 +69,7 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int score)
     {
         // 更新分数显示
-        currentScore += score;
+        currentScore = Mathf.Min(currentScore + score, maxScore);
         scoreText.text = currentScore.ToString();
     }
     public void SetupJudgeBar()
@@ -116,5 +117,17 @@ public class UIManager : MonoBehaviour
         reflectImage.color = color;
         yield return new WaitForSeconds(duration);
         reflectImage.color = defaultReflectColor;
+    }
+
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
+        GameManager.Instance.BackToSelectLevel();
+    }
+
+    private void TimeOut()
+    {
+        // 时间到，结束游戏
+        GameManager.Instance.LevelComplete();
     }
 }
