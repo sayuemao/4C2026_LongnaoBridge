@@ -9,9 +9,11 @@ public class AudioManager : MonoBehaviour
     public AudioSource[] soundEffects;
     public AudioSource[] bgm;
 
-    public float bgmVolumn = 1.0f;
-
+    public float bgmVolumn = 0.8f;
     public float soundEffectVolumn = 1.0f;
+
+
+    private bool playA = true;
 
     private void Awake()
     {
@@ -29,28 +31,60 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        
+        PlayBGM(0);
+        playA = true;
     }
 
     void Update()
     {
-        
+        if (!IsAnyBgmPlaying())
+        {
+            int index = playA ? 0 : 1;
+            PlayBGM(index);
+            playA = !playA;
+        }
     }
 
     public void PlaySFX(int soundToPlay)
     {
-        Debug.Log("Play SFX: " + soundToPlay);
         soundEffects[soundToPlay].Stop();
         soundEffects[soundToPlay].volume = soundEffectVolumn;
+        soundEffects[soundToPlay].loop = false;
         soundEffects[soundToPlay].Play();
     }
 
     public void PlayBGM(int bgmToPlay)
     {
-        Debug.Log("Play BGM: " + bgmToPlay);
+
         bgm[bgmToPlay].Stop();
         bgm[bgmToPlay].volume = bgmVolumn;
         bgm[bgmToPlay].Play();
     }
 
+    private bool IsAnyBgmPlaying()
+    {
+        for (int i = 0; i < bgm.Length; i++)
+        {
+            if (bgm[i] != null && bgm[i].isPlaying)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public void PlaySFXLoop(int soundToPlay)
+    {
+        if (soundToPlay < 0 || soundToPlay >= soundEffects.Length || soundEffects[soundToPlay] == null) return;
+
+        soundEffects[soundToPlay].Stop();
+        soundEffects[soundToPlay].loop = true;
+        soundEffects[soundToPlay].volume = soundEffectVolumn;
+        soundEffects[soundToPlay].Play();
+    }
+    public void StopSFXLoop(int soundToStop)
+    {
+        if (soundToStop < 0 || soundToStop >= soundEffects.Length || soundEffects[soundToStop] == null) return;
+        soundEffects[soundToStop].Stop();
+    }
 }

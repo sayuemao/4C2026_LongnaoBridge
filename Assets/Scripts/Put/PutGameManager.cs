@@ -29,6 +29,7 @@ public class PutGameManager : MonoBehaviour
     [SerializeField] private TMP_Text countdownText;
     [SerializeField] private float countdownSeconds = 20f;
 
+    [SerializeField] private GameObject bottomFrame;
 
 
     private float remainingSeconds;
@@ -60,13 +61,11 @@ public class PutGameManager : MonoBehaviour
     {
         if (isPaused) return;
         CheckStart();
+        if(!isBegin) return;
         CountDown();
         if (isGameOver)
         {
-                if (!finishOverTextShowed)
-                {
-                    finishOverTextShowed = true;
-            }
+            Debug.Log("Game Over!Your point is"+score);
             return;
         }
         CheckInput();
@@ -123,6 +122,7 @@ public class PutGameManager : MonoBehaviour
                     if (pillarBodies[i] != null)
                         pillarBodies[i].bodyType = RigidbodyType2D.Kinematic;
                 }
+                bottomFrame.SetActive(false);
             }
             isBegin = true;
         }
@@ -228,7 +228,15 @@ public class PutGameManager : MonoBehaviour
     private void Settle(Board board)
     {
         int pillarCount = board.CheckPillarCount();
-        if (pillarCount >= 2) score++;
+        if (pillarCount >= 2)
+        {
+            score++;
+            AudioManager.Instance.PlaySFX(4);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFX(3);
+        }
         UpdateScoreText();
     }
 

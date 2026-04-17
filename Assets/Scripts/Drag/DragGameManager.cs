@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DragGameManager : MonoBehaviour
@@ -11,7 +12,9 @@ public class DragGameManager : MonoBehaviour
     public static DragGameManager Instance { get; private set; }
 
 
-    [SerializeField] private TMP_Text countdownText;   
+    [SerializeField] private TMP_Text countdownText;
+
+    [SerializeField] private GameObject bottomFrame;
     private float Timer = 0;
 
     [SerializeField] private float dragCountDown1 = 10f;
@@ -38,7 +41,7 @@ public class DragGameManager : MonoBehaviour
     }
     private void Start()
     {
-        RestartDragGame();
+        InitialDragGame();
     }
 
     private void Update()
@@ -90,14 +93,21 @@ public class DragGameManager : MonoBehaviour
                 countdownText.text = "RestoreTime left:" + Mathf.CeilToInt(Timer);
         }
     }
-
     private void RestartDragGame()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
+    }
+    private void InitialDragGame()
+    {
+        
         Timer = dragCountDown1;
         currentdragStage = 1;
         currentdragCount = 0;
 
-        IsdragGameStarted= false;
+        bottomFrame.SetActive(true);
+
+        IsdragGameStarted = false;
         IsdragGameOver = false;
         IsdragGameWin = false;
 

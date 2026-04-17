@@ -45,6 +45,7 @@ public class Hammer : MonoBehaviour
                 Instantiate(hitEffectPrefab, hit.bounds.center, Quaternion.identity);
 
             Destroy(hit.gameObject);
+            AudioManager.Instance.PlaySFX(5); // ≤•∑≈–ﬁ∏¥“Ù–ß
             FixGameManager.Instance.AddError();
         }
 
