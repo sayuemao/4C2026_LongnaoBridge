@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     public bool levelComplete = false;
 
+    public int pilesCompleted = 0;
+    public int pilesShouldComplete = 5;
     private void Awake()
     {
         if(Instance == null)
@@ -35,20 +37,28 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void LevelComplete()
     {
         levelComplete = true;
+        Time.timeScale = 0; 
         Debug.Log("Level Complete");
-        if(SceneTransitionManager.Instance != null)
+        if(pilesCompleted >= pilesShouldComplete)
         {
-            SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+            if(SceneTransitionManager.Instance != null)
+            {
+                SceneTransitionManager.Instance.TransitionToScene("Level1Complete");
+            }
+            else
+            {
+                SceneManager.LoadScene("Level1Complete");   
+            }
         }
         else
         {
-            SceneManager.LoadScene("SelectLevel");
+            
         }
     }
 

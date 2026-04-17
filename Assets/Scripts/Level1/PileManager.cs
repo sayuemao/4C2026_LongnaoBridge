@@ -127,6 +127,9 @@ public class PileManager : MonoBehaviour
 
     void OnPileCompleted()
     {
+        // 记录完成的木桩数量
+        GameManager.Instance.pilesCompleted++;
+
         // 当前木桩锤好后立即切换到下一个木桩
         currentPileIndex++;
 
