@@ -180,9 +180,10 @@ public class NoteController : MonoBehaviour
 
         // Ïú»Ù½Ú×àµã
         //Destroy(gameObject);
-        //StartCoroutine(JumpRetreatDisappear());
+
         sr.sprite = noteSprites[1];
-        StartCoroutine(FadeOut());
+        StartCoroutine(JumpRetreatDisappear());
+        //StartCoroutine(FadeOut());
     }
 
     void OnMissed()
