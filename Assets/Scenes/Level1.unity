@@ -928,7 +928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1196575927
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1100,6 +1100,9 @@ MonoBehaviour:
   perfectZone: {fileID: 850314377}
   reflectImage: {fileID: 850314378}
   reflectImageDuration: 0.35
+  countdownText: {fileID: 1146116594}
+  countdownTime: 1
+  scoreText: {fileID: 4228766}
 --- !u!1 &1389185399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,7 +1398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1686033006
 RectTransform:
   m_ObjectHideFlags: 0
