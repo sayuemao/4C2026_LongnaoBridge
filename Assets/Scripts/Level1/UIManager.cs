@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI scoreText; // 显示分数的文本
     private int maxScore = 9999; // 最大分数
-    private int currentScore = 0; // 当前分数
+    public int currentScore = 0; // 当前分数
     private void Awake()
     {
         if (Instance != null && Instance != this)

@@ -27,7 +27,7 @@ using UnityEngine.UI;
 /// - 动画效果仅通过 Image.fillAmount (0 -> 1) 实现
 /// - 如果 Image Type 不是 Filled，运行时会输出警告并降级为直接显示
 /// </summary>
-public class Level1CompleteAnimator : MonoBehaviour
+public class LevelCompleteAnimator : MonoBehaviour
 {
     // ==================== 拖拽到Inspector的UI元素 ====================
 
@@ -165,6 +165,8 @@ public class Level1CompleteAnimator : MonoBehaviour
         {
             scoreText.text = "";
             scoreText.gameObject.SetActive(true);
+            scoreTextText = "得分：" + LevelCompleteSceneManager.Instance.levelData.levelScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
+            scoreTextText += " 最高："+LevelCompleteSceneManager.Instance.levelData.levelMaxScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
         }
 
         // 初始化分隔线：仅将fillAmount设为0，不修改任何transform属性

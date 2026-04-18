@@ -19,8 +19,7 @@ public class LevelData : ScriptableObject
 
     public bool dialogAfterLevel3;
 
-
-
-
-
+    [Header("µÃ·Ö¼ÇÂ¼")]
+    public int[] levelMaxScores ;
+    public int[] levelScores ;
 }

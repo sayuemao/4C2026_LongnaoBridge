@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public int pilesCompleted = 0;
     public int pilesShouldComplete = 5;
+
+    public LevelData levelData;
     private void Awake()
     {
         if(Instance == null)
@@ -49,7 +51,11 @@ public class GameManager : MonoBehaviour
         {
             if(SceneTransitionManager.Instance != null)
             {
+                // ¼ÇÂ¼µÃ·Ö
+                levelData.levelScores[0] = UIManager.Instance.currentScore;
+                levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
                 SceneTransitionManager.Instance.TransitionToScene("Level1Complete");
+
             }
             else
             {
