@@ -182,7 +182,7 @@ MonoBehaviour:
   m_text: 666
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
-  m_sharedMaterial: {fileID: -6756658022255498193, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
+  m_sharedMaterial: {fileID: 6050159385684830777, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -545,6 +545,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelComplete: 0
+  pilesCompleted: 0
+  pilesShouldComplete: 5
+  levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
 --- !u!4 &363360405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1923516098482253300, guid: 3872d54f677caf54cb6527a6e29490ff, type: 3}
@@ -838,7 +841,7 @@ MonoBehaviour:
   m_text: 999:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
-  m_sharedMaterial: {fileID: -6756658022255498193, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
+  m_sharedMaterial: {fileID: 6050159385684830777, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1103,6 +1106,7 @@ MonoBehaviour:
   countdownText: {fileID: 1146116594}
   countdownTime: 1
   scoreText: {fileID: 4228766}
+  currentScore: 0
 --- !u!1 &1389185399
 GameObject:
   m_ObjectHideFlags: 0
