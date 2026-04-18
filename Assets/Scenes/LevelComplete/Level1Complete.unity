@@ -755,6 +755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
   nowLevelNumber: 1
+  animComplete: 0
 --- !u!1 &1763467435
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,7 +924,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -452.58, y: 233}
+  m_AnchoredPosition: {x: -452.58, y: 217}
   m_SizeDelta: {x: 447.1731, y: 127.8013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1829575916
