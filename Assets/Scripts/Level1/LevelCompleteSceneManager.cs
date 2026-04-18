@@ -17,12 +17,16 @@ public class LevelCompleteSceneManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Time.timeScale = 1f;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(SceneTransitionManager.Instance)
+        {
+            SceneTransitionManager.Instance.PlayFadeOut();
+        }
     }
 
     // Update is called once per frame

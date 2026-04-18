@@ -15,6 +15,8 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeInTime = 1f;
     public float fadeOutTime = 1f;
 
+    private bool isTransitioning = false; // 是否正在转场
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,25 +31,32 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
     private void Start()
-    {
-        StartCoroutine(FadeOut());
-        fadeInPanel.gameObject.SetActive(false);
-        fadeOutPanel.gameObject.SetActive(false);
+     {
+         fadeInPanel.gameObject.SetActive(false);
+         fadeOutPanel.gameObject.SetActive(false);
+         //StartCoroutine(FadeOut());
     }
 
     public void TransitionToScene(string sceneName)
     {
+        if (isTransitioning)
+        {
+            Debug.LogWarning("已经在转场中，忽略重复调用");
+            return;
+        }
         StartCoroutine(TransitionCoroutine(sceneName));
     }
 
     IEnumerator TransitionCoroutine(string sceneName)
     {
+        isTransitioning = true;
         yield return StartCoroutine(FadeIn());
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+        isTransitioning = false;
     }
 
     IEnumerator FadeIn()
@@ -57,9 +66,10 @@ public class SceneTransitionManager : MonoBehaviour
         while (t < fadeInTime)
         {
             fadeInPanel.color = new Color(fadeInPanel.color.r, fadeInPanel.color.g, fadeInPanel.color.b, t);
-            t += Time.deltaTime / fadeInTime;
+            t += Time.unscaledDeltaTime / fadeInTime;
             yield return null;
         }
+        //fadeOutPanel.gameObject.SetActive(true);
     }
 
     IEnumerator FadeOut()
@@ -69,7 +79,7 @@ public class SceneTransitionManager : MonoBehaviour
         while (t > 0f)
         {
             fadeOutPanel.color = new Color(fadeOutPanel.color.r, fadeOutPanel.color.g, fadeOutPanel.color.b, t);
-            t -= Time.deltaTime / fadeOutTime;
+            t -= Time.unscaledDeltaTime / fadeOutTime;
             yield return null;
         }
         fadeOutPanel.gameObject.SetActive(false);

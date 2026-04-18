@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewLevelData", menuName = "LevelData")]
 public class LevelData : ScriptableObject
 {
+    public bool isNotFirstGame;
     public int unlockLevelNumber;
     public int totalLevelNumber;
     [Header("是否播放过对应的对话")]
@@ -20,6 +21,6 @@ public class LevelData : ScriptableObject
     public bool dialogAfterLevel3;
 
     [Header("得分记录")]
-    public int[] levelMaxScores ;
-    public int[] levelScores ;
+    public int[] levelMaxScores;
+    public int[] levelScores;
 }

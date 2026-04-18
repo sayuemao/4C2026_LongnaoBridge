@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText; // 显示分数的文本
     private int maxScore = 9999; // 最大分数
     public int currentScore = 0; // 当前分数
+    private bool hasTimedOut = false; // 是否已经超时
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -55,8 +56,9 @@ public class UIManager : MonoBehaviour
     private void ShowCountdown()
     {
         // 显示倒计时
-        if (countdownTime < 0)
+        if (countdownTime < 0 && !hasTimedOut)
         {
+            hasTimedOut = true;
             countdownTime = 0;
             TimeOut();
         }

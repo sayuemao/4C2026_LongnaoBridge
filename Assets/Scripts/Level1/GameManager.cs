@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         levelComplete = true;
-        Time.timeScale = 0; 
+        Time.timeScale = 0.2f; 
         Debug.Log("Level Complete");
         if(pilesCompleted >= pilesShouldComplete)
         {
