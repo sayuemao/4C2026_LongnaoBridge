@@ -131,6 +131,10 @@ public class LevelCompleteAnimator : MonoBehaviour
 
         // 第七步：面板展开完成后，打字机效果显示描述文字
         yield return StartCoroutine(TypeText(descriptionText, descriptionTextText));
+
+        yield return null;
+
+        LevelCompleteSceneManager.Instance.animComplete = true;
     }
 
     // ==================== 初始化方法 ====================
@@ -161,12 +165,12 @@ public class LevelCompleteAnimator : MonoBehaviour
         }
 
         // 初始化分数文字
-        if (scoreText)
+        if (scoreText && scoreText.gameObject.activeSelf)
         {
             scoreText.text = "";
             scoreText.gameObject.SetActive(true);
             scoreTextText = "得分：" + LevelCompleteSceneManager.Instance.levelData.levelScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
-            scoreTextText += " 最高："+LevelCompleteSceneManager.Instance.levelData.levelMaxScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
+            scoreTextText += " 最高："+  LevelCompleteSceneManager.Instance.levelData.levelMaxScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
         }
 
         // 初始化分隔线：仅将fillAmount设为0，不修改任何transform属性
@@ -202,7 +206,7 @@ public class LevelCompleteAnimator : MonoBehaviour
     IEnumerator TypeText(TextMeshProUGUI textComponent, string fullText)
     {
         // 如果组件为空，直接退出协程
-        if (textComponent == null) yield break;
+        if (textComponent == null || !textComponent.gameObject.activeSelf) yield break;
 
         // 先清空文字
         textComponent.text = "";
