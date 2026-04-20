@@ -166,7 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e43f89b1dbe485488e17e453c0b2935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectLevelSceneName: SelectLevel
+  nextSceneName: SelectLevel
+  animSceneName: Anim
   isNotFirstGame: 0
   levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
 --- !u!1 &23313804

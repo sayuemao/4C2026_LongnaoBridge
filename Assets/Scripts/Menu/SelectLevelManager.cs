@@ -129,11 +129,11 @@ public class SelectLevelManager : MonoBehaviour
         Debug.Log("Enter Level 3");
         if(SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.TransitionToScene("Level3_1");
+            SceneTransitionManager.Instance.TransitionToScene("Level3");
         }
         else
         {
-            SceneManager.LoadScene("Level3_1");
+            SceneManager.LoadScene("Level3");
         }
     }
 

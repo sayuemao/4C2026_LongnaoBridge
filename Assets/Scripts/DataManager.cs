@@ -18,20 +18,21 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+#if UNITY_EDITOR
+        Debug.Log("DataManager Start");
+        levelData = originalLevelData;
+#endif
     }
 
     private void Start()
     {
-        #if UNITY_EDITOR
-            Debug.Log("DataManager Start");
-            levelData = originalLevelData;
-        #endif
+
         
     }
     private void OnDestroy()
     {
         Instance = null;
-        levelData.isNotFirstGame = false;
+        //levelData.isNotFirstGame = false;
     }
     // Start is called before the first frame update
     public void ResetLevelData()
