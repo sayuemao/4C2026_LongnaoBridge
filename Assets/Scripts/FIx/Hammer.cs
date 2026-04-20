@@ -21,6 +21,10 @@ public class Hammer : MonoBehaviour
 
     private void OnMouseExit() => transform.localScale = normalScale;
 
+    private void OnMouseDown()
+    {
+        AudioManager.Instance.PlaySFX(0);
+    }
     private void OnMouseDrag()
     {
         Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);

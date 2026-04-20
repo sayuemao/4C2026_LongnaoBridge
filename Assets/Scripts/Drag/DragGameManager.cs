@@ -20,6 +20,9 @@ public class DragGameManager : MonoBehaviour
     [SerializeField] private float dragCountDown1 = 10f;
     [SerializeField] private float dragCountDown2 = 20f;
     [SerializeField] int ImageCount = 5;
+
+    [SerializeField] private GameObject dragPillars;
+    [SerializeField] private GameObject putPillars;
     public int currentdragCount = 0;
 
     private int currentdragStage = 1;
@@ -85,6 +88,8 @@ public class DragGameManager : MonoBehaviour
             {
                 IsdragGameOver = true;
                 IsdragGameWin = true;
+                dragPillars.SetActive(false);
+                putPillars.SetActive(true);
                 return;
             }
             if (Timer < 0f) Timer = 0f;
@@ -106,6 +111,8 @@ public class DragGameManager : MonoBehaviour
         currentdragCount = 0;
 
         bottomFrame.SetActive(true);
+        dragPillars.SetActive(true);
+        putPillars.SetActive(false);
 
         IsdragGameStarted = false;
         IsdragGameOver = false;

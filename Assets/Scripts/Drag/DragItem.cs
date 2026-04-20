@@ -27,7 +27,14 @@ public class DragItem : MonoBehaviour
         transform.position = startPos;
         transform.localScale = normalScale;
     }
-
+    private void OnMouseDown()
+    {
+        if (isFinished) return;
+        if (DragGameManager.Instance.IsdragGameOver) return;
+        if (!DragGameManager.Instance.IsdragGameStarted) return;
+        if (DragGameManager.Instance.isPaused) return;
+        AudioManager.Instance.PlaySFX(0);
+    }
     private void OnMouseDrag()
     {
         if (isFinished) return;
