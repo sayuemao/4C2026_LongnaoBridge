@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectLevelSceneName: SelectLevel
+  isNotFirstGame: 0
+  levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
 --- !u!1 &23313804
 GameObject:
   m_ObjectHideFlags: 1
@@ -628,6 +630,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &858880483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858880484}
+  - component: {fileID: 858880485}
+  m_Layer: 0
+  m_Name: DataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &858880484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858880483}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858880485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858880483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd719bb5024fb1a46a5cf5bfc4eb7d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
+  originalLevelData: {fileID: 11400000, guid: 89073517027a34a41850a93f65fd79e4, type: 2}
 --- !u!1 &1466056370
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +1021,7 @@ MonoBehaviour:
   m_text: "\u70B9\u51FB\u8FDB\u5165\u6E38\u620F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0ce7063946cb06048b15cbb36e4ab089, type: 2}
-  m_sharedMaterial: {fileID: 7274270771995006533, guid: 0ce7063946cb06048b15cbb36e4ab089, type: 2}
+  m_sharedMaterial: {fileID: 516328976385682137, guid: 0ce7063946cb06048b15cbb36e4ab089, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1154,3 +1202,4 @@ SceneRoots:
   - {fileID: 493068797}
   - {fileID: 20176711}
   - {fileID: 1258428258545197636}
+  - {fileID: 858880484}

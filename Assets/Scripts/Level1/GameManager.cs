@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     public bool levelComplete = false;
 
+    public int pilesCompleted = 0;
+    public int pilesShouldComplete = 5;
+
+    public LevelData levelData;
     private void Awake()
     {
         if(Instance == null)
@@ -35,13 +39,38 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void LevelComplete()
     {
         levelComplete = true;
+        Time.timeScale = 0.2f; 
         Debug.Log("Level Complete");
+        if(pilesCompleted >= pilesShouldComplete)
+        {
+            if(SceneTransitionManager.Instance != null)
+            {
+                // 记录得分
+                levelData.levelScores[0] = UIManager.Instance.currentScore;
+                levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
+                SceneTransitionManager.Instance.TransitionToScene("Level1Complete");
+
+            }
+            else
+            {
+                SceneManager.LoadScene("Level1Complete");   
+            }
+        }
+        else
+        {
+            
+        }
+    }
+
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
         if(SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
@@ -51,6 +80,4 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("SelectLevel");
         }
     }
-
-
 }

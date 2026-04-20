@@ -66,8 +66,9 @@ public class NoteController : MonoBehaviour
         hasBeenJudged = false;
         currentState = JudgeState.Waiting;
         sr.sprite = noteSprites[0];
-        transform.localScale = originalScale;
         sr.color = originalColor;
+        sr.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        transform.localScale = originalScale;
     }
 
     void OnDisable()
@@ -174,15 +175,19 @@ public class NoteController : MonoBehaviour
         }
 
         UIManager.Instance.ShowFloatingText(text, color);
+        //UIManager.Instance.UpdateScore(accuracy == JudgeAccuracy.Perfect ? 100 : accuracy == JudgeAccuracy.Good ? 50 : 20); // 更新分数
+        UIManager.Instance.UpdateScore(1); // 更新分数
 
         // 特效
         EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
 
         // 销毁节奏点
         //Destroy(gameObject);
-        //StartCoroutine(JumpRetreatDisappear());
+
         sr.sprite = noteSprites[1];
-        StartCoroutine(FadeOut());
+        sr.maskInteraction = SpriteMaskInteraction.None;
+        StartCoroutine(JumpRetreatDisappear());
+        //StartCoroutine(FadeOut());
     }
 
     void OnMissed()
@@ -245,6 +250,8 @@ public class NoteController : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        
 
         ObjectPoolManager.Instance.ReturnObject(gameObject);
     }

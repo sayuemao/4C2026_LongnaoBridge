@@ -136,4 +136,17 @@ public class SelectLevelManager : MonoBehaviour
             SceneManager.LoadScene("Level3_1");
         }
     }
+
+    public void BackToMainMenu()
+    {
+        // ·µ»ØÖ÷²Ëµ¥
+        if(SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("MainMenu");
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
 }

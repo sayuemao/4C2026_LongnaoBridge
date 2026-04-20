@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 // UIManager.cs - UI管理
@@ -22,6 +23,14 @@ public class UIManager : MonoBehaviour
     private Color defaultReflectColor;
     public float reflectImageDuration = 0.5f;
     private Coroutine reflectImageCoroutine;
+
+    public TextMeshProUGUI countdownText; // 显示倒计时的文本
+    public float countdownTime = 1f; // 倒计时时间,分钟
+
+    public TextMeshProUGUI scoreText; // 显示分数的文本
+    private int maxScore = 9999; // 最大分数
+    public int currentScore = 0; // 当前分数
+    private bool hasTimedOut = false; // 是否已经超时
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,6 +44,35 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         defaultReflectColor = reflectImage.color;
+        countdownTime *= 60;// 转换为秒
+        scoreText.text = "0";
+    }
+
+    private void Update()
+    {
+        ShowCountdown();
+    }
+    
+    private void ShowCountdown()
+    {
+        // 显示倒计时
+        if (countdownTime < 0 && !hasTimedOut)
+        {
+            hasTimedOut = true;
+            countdownTime = 0;
+            TimeOut();
+        }
+        int fenzhong = (int)countdownTime / 60;
+        int seconds = (int)countdownTime % 60;
+        countdownText.text = $"{fenzhong:00}:{seconds:00}";
+        countdownTime -= Time.deltaTime;
+    }
+
+    public void UpdateScore(int score)
+    {
+        // 更新分数显示
+        currentScore = Mathf.Min(currentScore + score, maxScore);
+        scoreText.text = currentScore.ToString();
     }
     public void SetupJudgeBar()
     {
@@ -81,5 +119,17 @@ public class UIManager : MonoBehaviour
         reflectImage.color = color;
         yield return new WaitForSeconds(duration);
         reflectImage.color = defaultReflectColor;
+    }
+
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
+        GameManager.Instance.BackToSelectLevel();
+    }
+
+    private void TimeOut()
+    {
+        // 时间到，结束游戏
+        GameManager.Instance.LevelComplete();
     }
 }
