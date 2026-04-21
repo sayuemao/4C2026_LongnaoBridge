@@ -41,6 +41,7 @@ public class SelectLevelManager : MonoBehaviour
 
     private IEnumerator WaitForFadeOutAndSetVariable()
     {
+        flowchart.SetBooleanVariable("CharacterDialog1End", false);
         yield return SceneTransitionManager.Instance.PlayFadeOut();
         // FadeOut效果结束后设置Fungus变量
         //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
@@ -49,8 +50,7 @@ public class SelectLevelManager : MonoBehaviour
 
     private void ExecuteDialog()
     {
-        flowchart.SetBooleanVariable("CharacterDialog1Start", true);
-        //flowchart.ExecuteBlock("主角对话1");
+        flowchart.ExecuteBlock("主角对白1");
     }
 
     void Update()
