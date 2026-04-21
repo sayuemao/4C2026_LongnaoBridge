@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public int pilesShouldComplete = 5;
 
     public LevelData levelData;
+
+    public bool startSpawnNotes = false;
     private void Awake()
     {
         if(Instance == null)
@@ -42,6 +44,10 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void DialogEnd()
+    {
+        startSpawnNotes = true;
+    }
     public void LevelComplete()
     {
         levelComplete = true;

@@ -94,9 +94,9 @@ public class SceneTransitionManager : MonoBehaviour
         fadeOutPanel.gameObject.SetActive(false);
     }
 
-    public void PlayFadeOut()
+    public Coroutine PlayFadeOut()
     {
         fadeInPanel.gameObject.SetActive(false);
-        StartCoroutine(FadeOut());
+        return StartCoroutine(FadeOut());
     }
 }
