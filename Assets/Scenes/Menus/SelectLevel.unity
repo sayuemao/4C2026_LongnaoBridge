@@ -1824,6 +1824,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484486910761232698, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: eventHandler
+      value: 
+      objectReference: {fileID: 987908619}
+    - target: {fileID: 5484486910761232698, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width
       value: 101.724106
       objectReference: {fileID: 0}
@@ -1887,6 +1891,10 @@ PrefabInstance:
       propertyPath: commandList.Array.data[13]
       value: 
       objectReference: {fileID: 987908566}
+    - target: {fileID: 5484486910761232698, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: commandList.Array.data[14]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6736895296350831556, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width
       value: 148.85051
@@ -1921,11 +1929,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: scrollPos.x
-      value: -375.6549
+      value: -472.20654
       objectReference: {fileID: 0}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: scrollPos.y
-      value: 267.3391
+      value: 244.35062
       objectReference: {fileID: 0}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: variables.Array.size
@@ -1954,7 +1962,7 @@ PrefabInstance:
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: selectedCommands.Array.data[0]
       value: 
-      objectReference: {fileID: 987908566}
+      objectReference: {fileID: 987908564}
     - target: {fileID: 8952763733444978551, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width
       value: 149.99994
@@ -1979,6 +1987,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8248606897347174276, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 987908567}
+    - targetCorrespondingSourceObject: {fileID: 8248606897347174276, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 987908619}
   m_SourcePrefab: {fileID: 100100000, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
 --- !u!114 &987908550 stripped
 MonoBehaviour:
@@ -2551,8 +2562,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scope: 0
-  key: CharacterDialoh1End
+  key: CharacterDialog1End
   value: 0
+--- !u!114 &987908619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987908551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f6487d21a03404cb21b245f0242e79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBlock: {fileID: 583572800}
+  suppressBlockAutoSelect: 0
+  waitForFrames: 1
 --- !u!1 &1048800076
 GameObject:
   m_ObjectHideFlags: 0
@@ -3291,7 +3317,9 @@ MonoBehaviour:
   - {fileID: 2146718018}
   - {fileID: 948259646}
   level3Decoration: {fileID: 373206117}
+  LevelSelectCanvas: {fileID: 674309035}
   levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
+  flowchart: {fileID: 987908550}
 --- !u!1 &1730035952
 GameObject:
   m_ObjectHideFlags: 0

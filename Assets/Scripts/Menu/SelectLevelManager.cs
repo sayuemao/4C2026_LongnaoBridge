@@ -19,8 +19,11 @@ public class SelectLevelManager : MonoBehaviour
     public Text[] levelPlayDescriptions;
 
     public Image level3Decoration;
+
+    public Canvas LevelSelectCanvas;
     public LevelData levelData;
 
+    public Flowchart flowchart;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +31,12 @@ public class SelectLevelManager : MonoBehaviour
         {
             StartCoroutine(WaitForFadeOutAndSetVariable());
         }
+        else
+        {
+            ExecuteDialog();
+        }
         SelectLevelButton(nowLevelNumber);
+        LevelSelectCanvas.gameObject.SetActive(false);
     }
 
     private IEnumerator WaitForFadeOutAndSetVariable()
@@ -36,8 +44,22 @@ public class SelectLevelManager : MonoBehaviour
         yield return SceneTransitionManager.Instance.PlayFadeOut();
         // FadeOut效果结束后设置Fungus变量
         //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
+        ExecuteDialog();
     }
 
+    private void ExecuteDialog()
+    {
+        flowchart.SetBooleanVariable("CharacterDialog1Start", true);
+        //flowchart.ExecuteBlock("主角对话1");
+    }
+
+    void Update()
+    {
+        if (flowchart.GetBooleanVariable("CharacterDialog1End"))
+        {
+            LevelSelectCanvas.gameObject.SetActive(true);
+        }
+    }
     public void SelectLevelButton(int levelNumber)
     {
         if (levelNumber != nowLevelNumber)
