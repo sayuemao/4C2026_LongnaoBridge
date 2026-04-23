@@ -15,13 +15,15 @@ public class DataManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
 #if UNITY_EDITOR
-        if (!hasSet&&!levelData.hasSet)
+        if (!hasSet)
         {
             Debug.Log("DataManager Start");
             CopyLevelData(originalLevelData, levelData);

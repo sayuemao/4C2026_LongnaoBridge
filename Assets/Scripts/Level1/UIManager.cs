@@ -51,6 +51,7 @@ public class UIManager : MonoBehaviour
             defaultReflectColor = reflectImage.color;
         }
         countdownTime *= 60;// ×ª»»ÎªÃë
+        SetCountdownDisplay(countdownTime);
         scoreText.text = "0";
     }
 
@@ -58,6 +59,10 @@ public class UIManager : MonoBehaviour
     {
         if (useInternalCountdown)
         {
+            if(GameManager.Instance&&!GameManager.Instance.startSpawnNotes)
+            {
+                return;
+            }
             ShowCountdown();
         }
     }
@@ -82,9 +87,7 @@ public class UIManager : MonoBehaviour
             countdownTime = 0;
             TimeOut();
         }
-        int fenzhong = (int)countdownTime / 60;
-        int seconds = (int)countdownTime % 60;
-        countdownText.text = $"{fenzhong:00}:{seconds:00}";
+        SetCountdownDisplay(countdownTime);
         countdownTime -= Time.deltaTime;
     }
 

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public LevelData levelData;
 
     public bool startSpawnNotes = false;
+    private bool dialogEnd = false;
     private void Awake()
     {
         if(Instance == null)
@@ -41,12 +42,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(dialogEnd&&Input.anyKeyDown&&!startSpawnNotes)
+        {
+            startSpawnNotes = true;
+        }
     }
 
     public void DialogEnd()
     {
-        startSpawnNotes = true;
+        dialogEnd = true;
     }
     public void LevelComplete()
     {
