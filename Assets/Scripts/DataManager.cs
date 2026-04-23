@@ -10,6 +10,8 @@ public class DataManager : MonoBehaviour
     public LevelData originalLevelData;
 
     public bool hasSet = false;
+
+    public bool hasPlayStartAnim = false;
     private void Awake()
     {
         if (Instance == null)

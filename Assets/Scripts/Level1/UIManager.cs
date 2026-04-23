@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText; // 显示分数的文本
     [SerializeField] private GameObject scoreFrame; // 分数外框（父对象框）
 
+    public TextMeshProUGUI startGameText; // 开始游戏提示Text;
+
     private int maxScore = 9999; // 最大分数
     public int currentScore = 0; // 当前分数
     private bool hasTimedOut = false; // 是否已经超时

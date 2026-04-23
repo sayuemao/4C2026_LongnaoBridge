@@ -24,9 +24,11 @@ public class RhythmBarController : MonoBehaviour
     public List<NoteController> activeNotes = new List<NoteController>();
 
     private Coroutine spawnNotesCoroutine;
+    public bool hasStartedSpawnNotes = false;
     void Start()
     {
-        // 初始化判定区域宽度（根据Sprite judgeWidth = judge judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f + judgeOffset; // 根据判定区宽度自动设置判定范围
+        // 初始化判定区域宽度（根据Sprite）
+        judgeWidth = judgeArea.GetComponent<SpriteRenderer>().bounds.size.x / 2f + judgeOffset; // 根据判定区宽度自动设置判定范围
         //StartCoroutine(SpawnNotes());
     }
 
@@ -34,10 +36,11 @@ public class RhythmBarController : MonoBehaviour
     {
         if(GameManager.Instance.startSpawnNotes)
         {
-            if(spawnNotesCoroutine == null)
+            if(spawnNotesCoroutine == null&&!hasStartedSpawnNotes)
             {
                 // 启动节奏点生成协程
                 spawnNotesCoroutine = StartCoroutine(SpawnNotes());
+                hasStartedSpawnNotes = true;
             }
         }
         
@@ -55,6 +58,8 @@ public class RhythmBarController : MonoBehaviour
 
             NoteController nc = note.GetComponent<NoteController>();
             nc.transform.SetParent(transform); // 保持世界空间变换不变，避免缩放受父对象影响
+            nc.startJudgePoint = startJudgePoint;
+            nc.endJudgePoint = noteDestroyPoint;
             nc.speed = noteSpeed;
             nc.judgeArea = judgeArea;
             nc.judgeWidth = judgeWidth;

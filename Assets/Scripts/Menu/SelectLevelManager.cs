@@ -24,6 +24,7 @@ public class SelectLevelManager : MonoBehaviour
     public LevelData levelData;
 
     public Flowchart flowchart;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +34,15 @@ public class SelectLevelManager : MonoBehaviour
         }
         else
         {
-            ExecuteDialog();
+            if(!DataManager.Instance.hasPlayStartAnim)
+            {
+                DataManager.Instance.hasPlayStartAnim = true;
+                ExecuteDialog();
+            }
+            else
+            {
+                flowchart.SetBooleanVariable("CharacterDialog1End", true);
+            }
         }
         SelectLevelButton(nowLevelNumber);
         LevelSelectCanvas.gameObject.SetActive(false);
@@ -41,11 +50,19 @@ public class SelectLevelManager : MonoBehaviour
 
     private IEnumerator WaitForFadeOutAndSetVariable()
     {
-        flowchart.SetBooleanVariable("CharacterDialog1End", false);
+        //flowchart.SetBooleanVariable("CharacterDialog1End", false);
         yield return SceneTransitionManager.Instance.PlayFadeOut();
         // FadeOut效果结束后设置Fungus变量
         //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
-        ExecuteDialog();
+        if (!DataManager.Instance.hasPlayStartAnim)
+        {
+            DataManager.Instance.hasPlayStartAnim = true;
+            ExecuteDialog();
+        }
+        else
+        {
+            flowchart.SetBooleanVariable("CharacterDialog1End", true);
+        }
     }
 
     private void ExecuteDialog()

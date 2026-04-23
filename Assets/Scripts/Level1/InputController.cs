@@ -12,7 +12,7 @@ public class InputController : MonoBehaviour
     {
 
         // 也支持鼠标点击
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (rhythmBar.hasStartedSpawnNotes && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             OnPlayerPress();
         }

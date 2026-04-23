@@ -19,9 +19,9 @@ public class NoteController : MonoBehaviour
 
     public bool hasBeenJudged = false;
 
-    private Transform startJudgePoint ;
+    public Transform startJudgePoint ;
 
-    private Transform endJudgePoint ;
+    public Transform endJudgePoint ;
 
     enum JudgeState
     {
@@ -107,157 +107,157 @@ public class NoteController : MonoBehaviour
     {
         if (hasBeenJudged) return;
 
-        // 获取开始判定点的位置
-        float startJudgeX = startJudgePoint.position.x;
+            // 获取开始判定点的位置
+            float startJudgeX = startJudgePoint.position.x;
         
-        // 如果节奏点还没到达开始判定点，不做任何处理
-        if (transform.position.x > startJudgeX)
-        {
-            return;
+            // 如果节奏点还没到达开始判定点，不做任何处理
+            if (transform.position.x > startJudgeX)
+            {
+                return;
+            }
+
+            // 计算判定结果
+            float distanceToJudgeCenter = Mathf.Abs(transform.position.x - judgeArea.position.x);
+
+            if (distanceToJudgeCenter <= judgeWidth)
+            {
+                // 在判定区内
+                JudgeAccuracy accuracy = GetAccuracy(distanceToJudgeCenter);
+                OnJudged(accuracy);
+            }
+            // else if (transform.position.x > judgeArea.position.x + judgeWidth)
+            // {
+            //     // 按早了
+            //     hasBeenJudged = true;
+            //     StartCoroutine(FadeOut());
+            //     UIManager.Instance.ShowFloatingText("按早了!", Color.red);
+            // }
+            // 按晚了的情况由上面的OnMissed处理
         }
 
-        // 计算判定结果
-        float distanceToJudgeCenter = Mathf.Abs(transform.position.x - judgeArea.position.x);
-
-        if (distanceToJudgeCenter <= judgeWidth)
+        JudgeAccuracy GetAccuracy(float distance)
         {
-            // 在判定区内
-            JudgeAccuracy accuracy = GetAccuracy(distanceToJudgeCenter);
-            OnJudged(accuracy);
-        }
-        // else if (transform.position.x > judgeArea.position.x + judgeWidth)
-        // {
-        //     // 按早了
-        //     hasBeenJudged = true;
-        //     StartCoroutine(FadeOut());
-        //     UIManager.Instance.ShowFloatingText("按早了!", Color.red);
-        // }
-        // 按晚了的情况由上面的OnMissed处理
-    }
+            float judgeRange = judgeWidth;
 
-    JudgeAccuracy GetAccuracy(float distance)
-    {
-        float judgeRange = judgeWidth;
-
-        if (distance <= judgeRange * 0.2f)
-            return JudgeAccuracy.Perfect;
-        else if (distance <= judgeRange * 0.6f)
-            return JudgeAccuracy.Good;
-        else
-            return JudgeAccuracy.OK;
-    }
-
-    void OnJudged(JudgeAccuracy accuracy)
-    {
-        hasBeenJudged = true;
-
-        // 通知PileManager：木桩下降
-        PileManager.Instance.OnHitPile(accuracy);
-
-        // 显示判定文字
-        string text = "";
-        Color color = Color.white;
-
-        switch (accuracy)
-        {
-            case JudgeAccuracy.Perfect:
-                text = "完美！";
-                color = Color.yellow;
-                AudioManager.Instance.PlaySFX(1);// 播放高分音效
-                break;
-            case JudgeAccuracy.Good:
-                text = "不错";
-                color = Color.green;
-                AudioManager.Instance.PlaySFX(1);// 播放高分音效
-                break;
-            case JudgeAccuracy.OK:
-                text = "还行";
-                color = Color.cyan;
-                AudioManager.Instance.PlaySFX(2);// 播放低分音效
-                break;
+            if (distance <= judgeRange * 0.2f)
+                return JudgeAccuracy.Perfect;
+            else if (distance <= judgeRange * 0.6f)
+                return JudgeAccuracy.Good;
+            else
+                return JudgeAccuracy.OK;
         }
 
-        UIManager.Instance.ShowFloatingText(text, color);
-        //UIManager.Instance.UpdateScore(accuracy == JudgeAccuracy.Perfect ? 100 : accuracy == JudgeAccuracy.Good ? 50 : 20); // 更新分数
-        UIManager.Instance.UpdateScore(1); // 更新分数
-
-        // 特效
-        EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
-
-        // 销毁节奏点
-        //Destroy(gameObject);
-
-        sr.sprite = noteSprites[1];
-        sr.maskInteraction = SpriteMaskInteraction.None;
-        StartCoroutine(JumpRetreatDisappear());
-        //StartCoroutine(FadeOut());
-    }
-
-    void OnMissed()
-    {
-        if (hasBeenJudged) return;
-
-        hasBeenJudged = true;
-        //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
-        OnNoteMissed?.Invoke(this);
-
-        sr.sprite = noteSprites[2];
-        // 渐隐消失
-        StartCoroutine(FadeOut());
-    }
-
-    IEnumerator FadeOut()// 渐隐消失协程
-    {
-        yield return new WaitForSeconds(destroyDelay); // 等待一段时间后开始渐隐
-
-        float alpha = 1f;
-
-        while (alpha > 0)
+        void OnJudged(JudgeAccuracy accuracy)
         {
-            alpha -= Time.deltaTime * 3f;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
-            yield return null;
+            hasBeenJudged = true;
+
+            // 通知PileManager：木桩下降
+            PileManager.Instance.OnHitPile(accuracy);
+
+            // 显示判定文字
+            string text = "";
+            Color color = Color.white;
+
+            switch (accuracy)
+            {
+                case JudgeAccuracy.Perfect:
+                    text = "完美！";
+                    color = Color.yellow;
+                    AudioManager.Instance.PlaySFX(1);// 播放高分音效
+                    break;
+                case JudgeAccuracy.Good:
+                    text = "不错";
+                    color = Color.green;
+                    AudioManager.Instance.PlaySFX(1);// 播放高分音效
+                    break;
+                case JudgeAccuracy.OK:
+                    text = "还行";
+                    color = Color.cyan;
+                    AudioManager.Instance.PlaySFX(2);// 播放低分音效
+                    break;
+            }
+
+            UIManager.Instance.ShowFloatingText(text, color);
+            //UIManager.Instance.UpdateScore(accuracy == JudgeAccuracy.Perfect ? 100 : accuracy == JudgeAccuracy.Good ? 50 : 20); // 更新分数
+            UIManager.Instance.UpdateScore(1); // 更新分数
+
+            // 特效
+            EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
+
+            // 销毁节奏点
+            //Destroy(gameObject);
+
+            sr.sprite = noteSprites[1];
+            sr.maskInteraction = SpriteMaskInteraction.None;
+            StartCoroutine(JumpRetreatDisappear());
+            //StartCoroutine(FadeOut());
         }
 
-        ObjectPoolManager.Instance.ReturnObject(gameObject);
-    }
-
-    IEnumerator JumpRetreatDisappear()
-    {
-        //yield return new WaitForSeconds(destroyDelay);
-
-        Vector3 startPos = transform.position;
-        Vector3 endPos = startPos + Vector3.left * retreatDistance; // 向左隐退
-        Vector3 startScale = transform.localScale;
-
-        float elapsed = 0f;
-
-        while (elapsed < disappearDuration)
+        void OnMissed()
         {
-            float t = Mathf.Clamp01(elapsed / disappearDuration);
+            if (hasBeenJudged) return;
 
-            // X 线性向左退，Y 用正弦曲线制造抛物线跳跃效果
-            float x = Mathf.Lerp(startPos.x, endPos.x, t);
-            float y = startPos.y + Mathf.Sin(t * Mathf.PI) * jumpHeight;
-            transform.position = new Vector3(x, y, startPos.z);
+            hasBeenJudged = true;
+            //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
+            OnNoteMissed?.Invoke(this);
 
-            // 透明度从 1 -> 0
-            float alpha = Mathf.Lerp(1f, 0f, t);
-            if (sr != null)
+            sr.sprite = noteSprites[2];
+            // 渐隐消失
+            StartCoroutine(FadeOut());
+        }
+
+        IEnumerator FadeOut()// 渐隐消失协程
+        {
+            yield return new WaitForSeconds(destroyDelay); // 等待一段时间后开始渐隐
+
+            float alpha = 1f;
+
+            while (alpha > 0)
+            {
+                alpha -= Time.deltaTime * 3f;
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+                yield return null;
+            }
 
-            // 轻微缩小增加消失感
-            float scale = Mathf.Lerp(1f, 0.85f, t);
-            transform.localScale = startScale * scale;
-
-            elapsed += Time.deltaTime;
-            yield return null;
+            ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
+
+        IEnumerator JumpRetreatDisappear()
+        {
+            //yield return new WaitForSeconds(destroyDelay);
+
+            Vector3 startPos = transform.position;
+            Vector3 endPos = startPos + Vector3.left * retreatDistance; // 向左隐退
+            Vector3 startScale = transform.localScale;
+
+            float elapsed = 0f;
+
+            while (elapsed < disappearDuration)
+            {
+                float t = Mathf.Clamp01(elapsed / disappearDuration);
+
+                // X 线性向左退，Y 用正弦曲线制造抛物线跳跃效果
+                float x = Mathf.Lerp(startPos.x, endPos.x, t);
+                float y = startPos.y + Mathf.Sin(t * Mathf.PI) * jumpHeight;
+                transform.position = new Vector3(x, y, startPos.z);
+
+                // 透明度从 1 -> 0
+                float alpha = Mathf.Lerp(1f, 0f, t);
+                if (sr != null)
+                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+
+                // 轻微缩小增加消失感
+                float scale = Mathf.Lerp(1f, 0.85f, t);
+                transform.localScale = startScale * scale;
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
 
         
 
-        ObjectPoolManager.Instance.ReturnObject(gameObject);
+            ObjectPoolManager.Instance.ReturnObject(gameObject);
+        }
     }
-}
 
 

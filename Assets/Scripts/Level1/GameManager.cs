@@ -44,12 +44,14 @@ public class GameManager : MonoBehaviour
     {
         if(dialogEnd&&Input.anyKeyDown&&!startSpawnNotes)
         {
+            UIManager.Instance.startGameText.gameObject.SetActive(false);
             startSpawnNotes = true;
         }
     }
 
     public void DialogEnd()
     {
+        UIManager.Instance.startGameText.gameObject.SetActive(true);
         dialogEnd = true;
     }
     public void LevelComplete()
