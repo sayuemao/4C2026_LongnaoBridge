@@ -34,7 +34,7 @@ public class SelectLevelManager : MonoBehaviour
         }
         else
         {
-            if(!DataManager.Instance.hasPlayStartAnim)
+            if(DataManager.Instance&&!DataManager.Instance.hasPlayStartAnim)
             {
                 DataManager.Instance.hasPlayStartAnim = true;
                 ExecuteDialog();
@@ -54,7 +54,7 @@ public class SelectLevelManager : MonoBehaviour
         yield return SceneTransitionManager.Instance.PlayFadeOut();
         // FadeOut效果结束后设置Fungus变量
         //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
-        if (!DataManager.Instance.hasPlayStartAnim)
+        if (DataManager.Instance&&!DataManager.Instance.hasPlayStartAnim)
         {
             DataManager.Instance.hasPlayStartAnim = true;
             ExecuteDialog();
