@@ -12,7 +12,7 @@ public class DragGameManager : MonoBehaviour
     public static DragGameManager Instance { get; private set; }
 
 
-    [SerializeField] private TMP_Text countdownText;
+    [SerializeField] private TMP_Text restartText;
 
     [SerializeField] private GameObject bottomFrame;
     private float Timer = 0;
@@ -47,8 +47,18 @@ public class DragGameManager : MonoBehaviour
         InitialDragGame();
     }
 
+    private void UpdateCountdownUI(float timeValue)
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.SetCountdownDisplay(timeValue);
+        }
+    }
+
+
     private void Update()
     {
+        if (IsdragGameWin) return;
         if (Input.GetKeyDown(KeyCode.R))
         {
             RestartDragGame();
@@ -68,15 +78,14 @@ public class DragGameManager : MonoBehaviour
                 IsdragGameStarted = true;
                 return;
             }
-            if (countdownText != null)
-                countdownText.text = "MemoryTime left:" + Mathf.CeilToInt(Timer);
+            UpdateCountdownUI(Timer);
         }
         if (!IsdragGameOver && currentdragStage == 2)
         {
             if (Timer <= 0f)
             {
                 IsdragGameOver = true;
-                countdownText.text = "Time's up! Game Over!";
+                restartText.gameObject.SetActive(true);
                 return;
             }
 
@@ -94,8 +103,7 @@ public class DragGameManager : MonoBehaviour
             }
             if (Timer < 0f) Timer = 0f;
 
-            if (countdownText != null)
-                countdownText.text = "RestoreTime left:" + Mathf.CeilToInt(Timer);
+            UpdateCountdownUI(Timer);
         }
     }
     private void RestartDragGame()
@@ -105,11 +113,11 @@ public class DragGameManager : MonoBehaviour
     }
     private void InitialDragGame()
     {
-        
         Timer = dragCountDown1;
         currentdragStage = 1;
         currentdragCount = 0;
 
+        restartText.gameObject.SetActive(false);
         bottomFrame.SetActive(true);
         dragPillars.SetActive(true);
         putPillars.SetActive(false);
@@ -118,8 +126,15 @@ public class DragGameManager : MonoBehaviour
         IsdragGameOver = false;
         IsdragGameWin = false;
 
-        if (countdownText != null)
-            countdownText.text = "MemoryTime left:" + Mathf.CeilToInt(Timer);
+        UIManager.Instance.useInternalCountdown = false;
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.SetScoreUIVisible(false);
+        }
+
+        UpdateCountdownUI(Timer);
+
         foreach (var item in FindObjectsOfType<DragItem>())
             item.ResetSelf();
 

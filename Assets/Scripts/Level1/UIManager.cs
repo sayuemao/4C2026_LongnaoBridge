@@ -26,8 +26,11 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI countdownText; // 显示倒计时的文本
     public float countdownTime = 1f; // 倒计时时间,分钟
+    public bool useInternalCountdown = true; // 是否使用UIManager内部倒计时逻辑
 
     public TextMeshProUGUI scoreText; // 显示分数的文本
+    [SerializeField] private GameObject scoreFrame; // 分数外框（父对象框）
+
     private int maxScore = 9999; // 最大分数
     public int currentScore = 0; // 当前分数
     private bool hasTimedOut = false; // 是否已经超时
@@ -43,16 +46,33 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        defaultReflectColor = reflectImage.color;
+        if (reflectImage != null)
+        {
+            defaultReflectColor = reflectImage.color;
+        }
         countdownTime *= 60;// 转换为秒
         scoreText.text = "0";
     }
 
     private void Update()
     {
-        ShowCountdown();
+        if (useInternalCountdown)
+        {
+            ShowCountdown();
+        }
     }
-    
+
+    public void SetCountdownDisplay(float seconds)
+    {
+        if (countdownText == null) return;
+
+        int fenzhong = Mathf.Max(0, (int)seconds) / 60;
+        int sec = Mathf.Max(0, (int)seconds) % 60;
+        countdownText.text = $"{fenzhong:00}:{sec:00}";
+    }
+
+   
+
     private void ShowCountdown()
     {
         // 显示倒计时
@@ -131,5 +151,18 @@ public class UIManager : MonoBehaviour
     {
         // 时间到，结束游戏
         GameManager.Instance.LevelComplete();
+    }
+
+    public void SetScoreUIVisible(bool visible)
+    {
+        if (scoreFrame != null)
+        {
+            scoreFrame.SetActive(visible);
+        }
+
+        if (scoreText != null)
+        {
+            scoreText.gameObject.SetActive(visible);
+        }
     }
 }

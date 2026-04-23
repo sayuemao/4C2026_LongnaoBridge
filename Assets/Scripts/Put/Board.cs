@@ -15,7 +15,6 @@ public class Board : MonoBehaviour
     private bool isLanded;
     private Coroutine autoClearCoroutine;
 
-    private bool isOver=false;
 
     private void Awake()
     {
@@ -34,10 +33,9 @@ public class Board : MonoBehaviour
     private void Update()
     {
         // 在结束时禁止木板继续移动：直接把水平速度设为0（但不冻结，保持物理状态），让其自然停下来
-        if (PutGameManager.Instance.isGameOver&&!isOver)
+        if (PutGameManager.Instance.isGameOver)
         {
             rb.velocity = new Vector2(0f, rb.velocity.y);
-            isOver = true;
         }
     }
 

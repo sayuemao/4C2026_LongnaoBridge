@@ -20,6 +20,7 @@ public class InputController : MonoBehaviour
 
     void OnPlayerPress()
     {
+        AudioManager.Instance.PlaySFX(0);// 播放按键音效（若不需要可删去）
         // 找到当前在判定区内的节奏点
         NoteController noteInJudge = FindNoteInJudgeArea();
 

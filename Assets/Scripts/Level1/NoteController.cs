@@ -163,14 +163,17 @@ public class NoteController : MonoBehaviour
             case JudgeAccuracy.Perfect:
                 text = "完美！";
                 color = Color.yellow;
+                AudioManager.Instance.PlaySFX(1);// 播放高分音效
                 break;
             case JudgeAccuracy.Good:
                 text = "不错";
                 color = Color.green;
+                AudioManager.Instance.PlaySFX(1);// 播放高分音效
                 break;
             case JudgeAccuracy.OK:
                 text = "还行";
                 color = Color.cyan;
+                AudioManager.Instance.PlaySFX(2);// 播放低分音效
                 break;
         }
 

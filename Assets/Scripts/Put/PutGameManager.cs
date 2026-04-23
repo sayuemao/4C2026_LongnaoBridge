@@ -22,11 +22,8 @@ public class PutGameManager : MonoBehaviour
     private float[] pillarBaseX;
     private Rigidbody2D[] pillarBodies;
 
-    public int score;
 
     [Header("UI")]
-    [SerializeField] private TMP_Text scoreText;
-    [SerializeField] private TMP_Text countdownText;
     [SerializeField] private float countdownSeconds = 20f;
 
     [SerializeField] private GameObject bottomFrame;
@@ -65,7 +62,6 @@ public class PutGameManager : MonoBehaviour
         CountDown();
         if (isGameOver)
         {
-            Debug.Log("Game Over!Your point is"+score);
             return;
         }
         CheckInput();
@@ -102,10 +98,17 @@ public class PutGameManager : MonoBehaviour
     {
         if (!isBegin && DragGameManager.Instance.IsdragGameWin)
         {
-            score = 0;
-            UpdateScoreText();
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetScoreUIVisible(true);
+            }
 
             remainingSeconds = countdownSeconds;
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.useInternalCountdown = false;
+            }
             UpdateCountdownText();
 
             SpawnBoard();
@@ -230,26 +233,25 @@ public class PutGameManager : MonoBehaviour
         int pillarCount = board.CheckPillarCount();
         if (pillarCount >= 2)
         {
-            score++;
+            UIManager.Instance.UpdateScore(1);
             AudioManager.Instance.PlaySFX(4);
         }
         else
         {
             AudioManager.Instance.PlaySFX(3);
         }
-        UpdateScoreText();
     }
 
-    private void UpdateScoreText()
-    {
-        if (scoreText != null)
-            scoreText.text = "Score: " + score;
-    }
+
 
     private void UpdateCountdownText()
     {
-        if (countdownText != null)
-            countdownText.text = "Time left: " + Mathf.CeilToInt(remainingSeconds);
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.SetCountdownDisplay(remainingSeconds);
+            return;
+        }
+
     }
 
     private IEnumerator SpawnBoardAfterDelay()
