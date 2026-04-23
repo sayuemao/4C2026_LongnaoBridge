@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public static DataManager Instance{get;private set;}
+    public static DataManager Instance { get; private set; }
     public LevelData levelData;
     public LevelData originalLevelData;
+
+    public bool hasSet = false;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -18,24 +20,64 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+#if UNITY_EDITOR
+        if (!hasSet&&!levelData.hasSet)
+        {
+            Debug.Log("DataManager Start");
+            CopyLevelData(originalLevelData, levelData);
+            hasSet = true;
+        }
+#endif
     }
 
     private void Start()
     {
-        #if UNITY_EDITOR
-            Debug.Log("DataManager Start");
-            levelData = originalLevelData;
-        #endif
-        
+
+
     }
     private void OnDestroy()
     {
         Instance = null;
-        levelData.isNotFirstGame = false;
+        //levelData.isNotFirstGame = false;
     }
     // Start is called before the first frame update
     public void ResetLevelData()
     {
-        levelData = originalLevelData;
+        CopyLevelData(originalLevelData, levelData);
+    }
+
+    private void CopyLevelData(LevelData source, LevelData target)
+    {
+        if (source == null || target == null)
+        {
+            Debug.LogError("Source or target LevelData is null");
+            return;
+        }
+
+        // 复制基础字段
+        target.isNotFirstGame = source.isNotFirstGame;
+        target.unlockLevelNumber = source.unlockLevelNumber;
+        target.totalLevelNumber = source.totalLevelNumber;
+        target.dialogBeforeLevel1 = source.dialogBeforeLevel1;
+        target.dialogAfterLevel1 = source.dialogAfterLevel1;
+        target.dialogBeforeLevel2 = source.dialogBeforeLevel2;
+        target.dialogAfterLevel2 = source.dialogAfterLevel2;
+        target.dialogBeforeLevel3 = source.dialogBeforeLevel3;
+        target.dialogAfterLevel3 = source.dialogAfterLevel3;
+
+        // 复制数组（深拷贝）
+        if (source.levelMaxScores != null)
+        {
+            target.levelMaxScores = new int[source.levelMaxScores.Length];
+            System.Array.Copy(source.levelMaxScores, target.levelMaxScores, source.levelMaxScores.Length);
+        }
+
+        if (source.levelScores != null)
+        {
+            target.levelScores = new int[source.levelScores.Length];
+            System.Array.Copy(source.levelScores, target.levelScores, source.levelScores.Length);
+        }
+
+        levelData.hasSet = true;
     }
 }

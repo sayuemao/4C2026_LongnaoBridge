@@ -94,7 +94,6 @@ public class LevelCompleteAnimator : MonoBehaviour
     }
 
     // ==================== 主动画流程 ====================
-
     /// <summary>
     /// 完整动画播放流程（协程）
     /// 使用协程实现：先初始化元素，然后按顺序播放每个动画

@@ -15,7 +15,8 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeInTime = 1f;
     public float fadeOutTime = 1f;
 
-    private bool isTransitioning = false; // 是否正在转场
+    private bool isTransitioning = false;
+    private bool hasReturnedFromOtherScene = false;
 
     private void Awake()
     {
@@ -31,10 +32,10 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
     private void Start()
-     {
-         fadeInPanel.gameObject.SetActive(false);
-         fadeOutPanel.gameObject.SetActive(false);
-         //StartCoroutine(FadeOut());
+    {
+        fadeInPanel.gameObject.SetActive(false);
+        fadeOutPanel.gameObject.SetActive(false);
+        //StartCoroutine(FadeOut());
     }
 
     public void TransitionToScene(string sceneName)
@@ -57,6 +58,15 @@ public class SceneTransitionManager : MonoBehaviour
             yield return null;
         }
         isTransitioning = false;
+
+        if (hasReturnedFromOtherScene)
+        {
+            PlayFadeOut();
+        }
+        else
+        {
+            hasReturnedFromOtherScene = true;
+        }
     }
 
     IEnumerator FadeIn()
@@ -69,7 +79,6 @@ public class SceneTransitionManager : MonoBehaviour
             t += Time.unscaledDeltaTime / fadeInTime;
             yield return null;
         }
-        //fadeOutPanel.gameObject.SetActive(true);
     }
 
     IEnumerator FadeOut()
@@ -85,9 +94,9 @@ public class SceneTransitionManager : MonoBehaviour
         fadeOutPanel.gameObject.SetActive(false);
     }
 
-    public void PlayFadeOut()
+    public Coroutine PlayFadeOut()
     {
         fadeInPanel.gameObject.SetActive(false);
-        StartCoroutine(FadeOut());
+        return StartCoroutine(FadeOut());
     }
 }

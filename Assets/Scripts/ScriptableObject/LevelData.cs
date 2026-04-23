@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewLevelData", menuName = "LevelData")]
 public class LevelData : ScriptableObject
 {
+    public bool hasSet = false;
     public bool isNotFirstGame;
     public int unlockLevelNumber;
     public int totalLevelNumber;

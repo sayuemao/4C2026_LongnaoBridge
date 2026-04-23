@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Fungus;
+using Unity.VisualScripting;
 public class SelectLevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
@@ -17,23 +19,47 @@ public class SelectLevelManager : MonoBehaviour
     public Text[] levelPlayDescriptions;
 
     public Image level3Decoration;
+
+    public Canvas LevelSelectCanvas;
     public LevelData levelData;
+
+    public Flowchart flowchart;
     // Start is called before the first frame update
     void Start()
     {
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.PlayFadeOut();
+            StartCoroutine(WaitForFadeOutAndSetVariable());
+        }
+        else
+        {
+            ExecuteDialog();
         }
         SelectLevelButton(nowLevelNumber);
+        LevelSelectCanvas.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
+    private IEnumerator WaitForFadeOutAndSetVariable()
+    {
+        flowchart.SetBooleanVariable("CharacterDialog1End", false);
+        yield return SceneTransitionManager.Instance.PlayFadeOut();
+        // FadeOut效果结束后设置Fungus变量
+        //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
+        ExecuteDialog();
+    }
+
+    private void ExecuteDialog()
+    {
+        flowchart.ExecuteBlock("主角对白1");
+    }
+
     void Update()
     {
-
+        if (flowchart.GetBooleanVariable("CharacterDialog1End"))
+        {
+            LevelSelectCanvas.gameObject.SetActive(true);
+        }
     }
-
     public void SelectLevelButton(int levelNumber)
     {
         if (levelNumber != nowLevelNumber)
@@ -65,7 +91,7 @@ public class SelectLevelManager : MonoBehaviour
         //更新按钮样式
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            if (i != nowLevelNumber-1)
+            if (i != nowLevelNumber - 1)
             {
                 levelButtons[i].transform.localScale = Vector3.one * 0.8f;
                 TextMeshProUGUI tempText = levelButtons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -102,7 +128,7 @@ public class SelectLevelManager : MonoBehaviour
     public void EnterLevel1()
     {
         Debug.Log("Enter Level 1");
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("Level1");
         }
@@ -115,7 +141,7 @@ public class SelectLevelManager : MonoBehaviour
     public void EnterLevel2()
     {
         Debug.Log("Enter Level 2");
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("Level2");
         }
@@ -127,20 +153,20 @@ public class SelectLevelManager : MonoBehaviour
     public void EnterLevel3()
     {
         Debug.Log("Enter Level 3");
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.TransitionToScene("Level3_1");
+            SceneTransitionManager.Instance.TransitionToScene("Level3");
         }
         else
         {
-            SceneManager.LoadScene("Level3_1");
+            SceneManager.LoadScene("Level3");
         }
     }
 
     public void BackToMainMenu()
     {
         // 返回主菜单
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("MainMenu");
         }
