@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private bool dialogEnd = false;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             //DontDestroyOnLoad(gameObject); // 保持在场景切换时不被销毁
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.PlayFadeOut();
         }
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(dialogEnd&&Input.anyKeyDown&&!startSpawnNotes)
+        if (dialogEnd && Input.anyKeyDown && !startSpawnNotes)
         {
             UIManager.Instance.startGameText.gameObject.SetActive(false);
             startSpawnNotes = true;
@@ -57,11 +57,11 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         levelComplete = true;
-        Time.timeScale = 0.2f; 
+        Time.timeScale = 0.2f;
         Debug.Log("Level Complete");
-        if(pilesCompleted >= pilesShouldComplete)
+        if (pilesCompleted >= pilesShouldComplete)
         {
-            if(SceneTransitionManager.Instance != null)
+            if (SceneTransitionManager.Instance != null)
             {
                 // 记录得分
                 levelData.levelScores[0] = UIManager.Instance.currentScore;
@@ -71,19 +71,26 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene("Level1Complete");   
+                SceneManager.LoadScene("Level1Complete");
             }
         }
         else
         {
-            
+            StartCoroutine(GameFailBackToSelectLevel());
         }
     }
 
+    private IEnumerator GameFailBackToSelectLevel()
+    {
+        UIManager.Instance.startGameText.gameObject.SetActive(true);
+        UIManager.Instance.startGameText.text = "再接再厉";
+        yield return new WaitForSeconds(0.5f);
+        BackToSelectLevel();
+    }
     public void BackToSelectLevel()
     {
         // 返回选择选择界面
-        if(SceneTransitionManager.Instance != null)
+        if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
         }

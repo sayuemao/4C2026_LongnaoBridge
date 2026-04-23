@@ -12,6 +12,8 @@ public class DataManager : MonoBehaviour
     public bool hasSet = false;
 
     public bool hasPlayStartAnim = false;
+
+    public bool unLockLevel = false;
     private void Awake()
     {
         if (Instance == null)

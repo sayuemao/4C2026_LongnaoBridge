@@ -36,6 +36,11 @@ public class LevelCompleteSceneManager : MonoBehaviour
     {
         if(animComplete&&Input.anyKeyDown)
         {
+            if(DataManager.Instance&&!DataManager.Instance.unLockLevel)
+            {
+                DataManager.Instance.unLockLevel = true;
+                DataManager.Instance.levelData.unlockLevelNumber=Mathf.Min(nowLevelNumber+1,DataManager.Instance.levelData.totalLevelNumber);
+            }
             if(SceneTransitionManager.Instance)
             {
                 SceneTransitionManager.Instance.TransitionToScene("SelectLevel");

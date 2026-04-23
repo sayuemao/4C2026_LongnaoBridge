@@ -485,6 +485,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialoge
       objectReference: {fileID: 0}
+    - target: {fileID: 2897436463116583214, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: _duration.floatVal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3388386293467874005, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width
       value: 152.95355

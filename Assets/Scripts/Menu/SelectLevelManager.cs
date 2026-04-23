@@ -28,24 +28,33 @@ public class SelectLevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SelectLevelButton(nowLevelNumber);
+        LevelSelectCanvas.gameObject.SetActive(false);
         if (SceneTransitionManager.Instance != null)
         {
             StartCoroutine(WaitForFadeOutAndSetVariable());
         }
         else
         {
-            if(DataManager.Instance&&!DataManager.Instance.hasPlayStartAnim)
+            if (DataManager.Instance)
             {
-                DataManager.Instance.hasPlayStartAnim = true;
-                ExecuteDialog();
+                if (!DataManager.Instance.hasPlayStartAnim)
+                {
+                    DataManager.Instance.hasPlayStartAnim = true;
+                    ExecuteDialog("主角对白1");
+                }
+                else if (DataManager.Instance.unLockLevel)
+                {
+                    flowchart.SetBooleanVariable("CharacterDialog1End", true);
+                    ExecuteDialog("SelectedNarrator" + DataManager.Instance.levelData.unlockLevelNumber);
+                    DataManager.Instance.unLockLevel = false;
+                }
             }
             else
             {
                 flowchart.SetBooleanVariable("CharacterDialog1End", true);
             }
         }
-        SelectLevelButton(nowLevelNumber);
-        LevelSelectCanvas.gameObject.SetActive(false);
     }
 
     private IEnumerator WaitForFadeOutAndSetVariable()
@@ -54,10 +63,19 @@ public class SelectLevelManager : MonoBehaviour
         yield return SceneTransitionManager.Instance.PlayFadeOut();
         // FadeOut效果结束后设置Fungus变量
         //Fungus.Flowchart.SetVariable("nowLevelNumber", nowLevelNumber);
-        if (DataManager.Instance&&!DataManager.Instance.hasPlayStartAnim)
+        if (DataManager.Instance)
         {
-            DataManager.Instance.hasPlayStartAnim = true;
-            ExecuteDialog();
+            if (!DataManager.Instance.hasPlayStartAnim)
+            {
+                DataManager.Instance.hasPlayStartAnim = true;
+                ExecuteDialog("主角对白1");
+            }
+            else if (DataManager.Instance.unLockLevel)
+            {
+                flowchart.SetBooleanVariable("CharacterDialog1End", true);
+                ExecuteDialog("SelectedNarrator" + DataManager.Instance.levelData.unlockLevelNumber);
+                DataManager.Instance.unLockLevel = false;
+            }
         }
         else
         {
@@ -65,9 +83,9 @@ public class SelectLevelManager : MonoBehaviour
         }
     }
 
-    private void ExecuteDialog()
+    private void ExecuteDialog(string dialogName)
     {
-        flowchart.ExecuteBlock("主角对白1");
+        flowchart.ExecuteBlock(dialogName);
     }
 
     void Update()
