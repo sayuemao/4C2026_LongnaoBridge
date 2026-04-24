@@ -6,15 +6,21 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     public RhythmBarController rhythmBar;
+
+    public BoxCollider2D hammerCollider;
     public KeyCode[] hitKeys = { KeyCode.Space, KeyCode.J, KeyCode.K }; // 支持多种按键
 
     void Update()
     {
 
         // 也支持鼠标点击
-        if (rhythmBar.hasStartedSpawnNotes && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (rhythmBar.hasStartedSpawnNotes && hammerCollider && Input.GetMouseButtonDown(0))
         {
-            OnPlayerPress();
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (hammerCollider.OverlapPoint(mousePosition))
+            {
+                OnPlayerPress();
+            }
         }
     }
 

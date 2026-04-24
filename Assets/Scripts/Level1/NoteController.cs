@@ -189,7 +189,7 @@ public class NoteController : MonoBehaviour
 
             sr.sprite = noteSprites[1];
             sr.maskInteraction = SpriteMaskInteraction.None;
-            StartCoroutine(JumpRetreatDisappear());
+            StartCoroutine(JumpRetreatDisappear(accuracy));
             //StartCoroutine(FadeOut());
         }
 
@@ -222,7 +222,7 @@ public class NoteController : MonoBehaviour
             ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
 
-        IEnumerator JumpRetreatDisappear()
+        IEnumerator JumpRetreatDisappear(JudgeAccuracy accuracy)
         {
             //yield return new WaitForSeconds(destroyDelay);
 
@@ -230,6 +230,15 @@ public class NoteController : MonoBehaviour
             Vector3 endPos = startPos + Vector3.left * retreatDistance; // 向左隐退
             Vector3 startScale = transform.localScale;
 
+            float jumpBeishu;
+            if(accuracy == JudgeAccuracy.Perfect)
+                jumpBeishu = Random.Range(1.5f, 2f);
+            else if(accuracy == JudgeAccuracy.Good)
+                jumpBeishu = Random.Range(1f, 1.5f);
+            else
+                jumpBeishu = Random.Range(0.5f, 1f);
+
+            float randomJumpHeight = jumpBeishu*jumpHeight;
             float elapsed = 0f;
 
             while (elapsed < disappearDuration)
@@ -238,7 +247,7 @@ public class NoteController : MonoBehaviour
 
                 // X 线性向左退，Y 用正弦曲线制造抛物线跳跃效果
                 float x = Mathf.Lerp(startPos.x, endPos.x, t);
-                float y = startPos.y + Mathf.Sin(t * Mathf.PI) * jumpHeight;
+                float y = startPos.y + Mathf.Sin(t * Mathf.PI) * randomJumpHeight;
                 transform.position = new Vector3(x, y, startPos.z);
 
                 // 透明度从 1 -> 0
