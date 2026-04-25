@@ -64,11 +64,11 @@ public class InputController : MonoBehaviour
 
     NoteController FindNoteFirstOutsideJudgeArea()
     {
-        // 找到第一个在判定区外的节奏点
+        // 找到第一个在判定区外的节奏点（音符从左向右移动，找判定区左侧最接近的）
         foreach (NoteController note in rhythmBar.activeNotes)
         {
             if (note.hasBeenJudged) continue; // 已经被判定过的点不再考虑
-            float distanceToJudge = note.transform.position.x - rhythmBar.judgeArea.position.x;
+            float distanceToJudge = rhythmBar.judgeArea.position.x - note.transform.position.x;
             if (distanceToJudge > rhythmBar.judgeWidth)
             {
                 return note;

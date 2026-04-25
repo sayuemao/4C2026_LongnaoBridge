@@ -169,6 +169,24 @@ MonoBehaviour:
   playVideoDelay: 1
   playVideoDelayCounter: 0
   isPlaying: 0
+  timeEvents:
+  - triggerTime: 16.5
+    hasTriggered: 0
+    onTimeReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 428348820}
+          m_TargetAssemblyTypeName: EndAnimManager, Assembly-CSharp
+          m_MethodName: SoundStop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1360372709
 GameObject:
   m_ObjectHideFlags: 0

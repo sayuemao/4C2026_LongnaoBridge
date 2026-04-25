@@ -8,8 +8,8 @@ public class RhythmBarController : MonoBehaviour
     public Transform judgeArea;        // 判定区域（固定位置）
     public Transform startJudgePoint;
     public GameObject notePrefab;       // 节奏点预制体
-    public Transform noteSpawnPoint;    // 生成点（右侧）
-    public Transform noteDestroyPoint;  // 销毁点（左侧/判定区后）
+    public Transform noteSpawnPoint;    // 生成点（左侧）
+    public Transform noteDestroyPoint;  // 销毁点（右侧/判定区后）
 
     [Header("节奏间隔参数")]
     public float[] rhythmPattern = { 1f, 0.8f, 1.2f, 0.6f, 1f }; // 节奏间隔
@@ -34,16 +34,16 @@ public class RhythmBarController : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.Instance.startSpawnNotes)
+        if (GameManager.Instance.startSpawnNotes)
         {
-            if(spawnNotesCoroutine == null&&!hasStartedSpawnNotes)
+            if (spawnNotesCoroutine == null && !hasStartedSpawnNotes)
             {
                 // 启动节奏点生成协程
                 spawnNotesCoroutine = StartCoroutine(SpawnNotes());
                 hasStartedSpawnNotes = true;
             }
         }
-        
+
     }
 
     IEnumerator SpawnNotes()

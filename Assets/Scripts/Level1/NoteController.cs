@@ -19,9 +19,9 @@ public class NoteController : MonoBehaviour
 
     public bool hasBeenJudged = false;
 
-    public Transform startJudgePoint ;
+    public Transform startJudgePoint;
 
-    public Transform endJudgePoint ;
+    public Transform endJudgePoint;
 
     enum JudgeState
     {
@@ -37,7 +37,7 @@ public class NoteController : MonoBehaviour
 
     [Header("跳跃隐退参数")]
     public float jumpHeight = 0.5f;          // 跳跃高度（世界单位）
-    public float retreatDistance = 1.0f;     // 向左退的距离（世界单位）
+    public float retreatDistance = 1.0f;     // 向右退的距离（世界单位）
     public float disappearDuration = 0.6f;   // 隐退消失动画时长（秒）
 
     private SpriteRenderer rhythmBarSR;
@@ -57,7 +57,7 @@ public class NoteController : MonoBehaviour
     void Start()
     {
         rhythmBarSR = transform.parent.GetComponent<SpriteRenderer>();
-        startJudgePoint =transform.parent.GetComponent<RhythmBarController>().startJudgePoint;
+        startJudgePoint = transform.parent.GetComponent<RhythmBarController>().startJudgePoint;
         endJudgePoint = transform.parent.GetComponent<RhythmBarController>().noteDestroyPoint;
     }
 
@@ -78,8 +78,8 @@ public class NoteController : MonoBehaviour
 
     void Update()
     {
-        // 向左移动
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        // 向右移动
+        transform.Translate(Vector3.right * speed * Time.deltaTime);
 
         // 检测是否进入判定区域
         float distanceToJudge = Mathf.Abs(transform.position.x - judgeArea.position.x);
@@ -95,8 +95,8 @@ public class NoteController : MonoBehaviour
             OnMissed();
         }
 
-        // 超出左侧边界回收
-        if (transform.position.x < endJudgePoint.position.x)
+        // 超出右侧边界回收
+        if (transform.position.x > endJudgePoint.position.x)
         {
             ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
@@ -107,166 +107,166 @@ public class NoteController : MonoBehaviour
     {
         if (hasBeenJudged) return;
 
-            // 获取开始判定点的位置
-            float startJudgeX = startJudgePoint.position.x;
-        
-            // 如果节奏点还没到达开始判定点，不做任何处理
-            if (transform.position.x > startJudgeX)
-            {
-                return;
-            }
+        // 获取开始判定点的位置
+        float startJudgeX = startJudgePoint.position.x;
 
-            // 计算判定结果
-            float distanceToJudgeCenter = Mathf.Abs(transform.position.x - judgeArea.position.x);
-
-            if (distanceToJudgeCenter <= judgeWidth)
-            {
-                // 在判定区内
-                JudgeAccuracy accuracy = GetAccuracy(distanceToJudgeCenter);
-                OnJudged(accuracy);
-            }
-            // else if (transform.position.x > judgeArea.position.x + judgeWidth)
-            // {
-            //     // 按早了
-            //     hasBeenJudged = true;
-            //     StartCoroutine(FadeOut());
-            //     UIManager.Instance.ShowFloatingText("按早了!", Color.red);
-            // }
-            // 按晚了的情况由上面的OnMissed处理
-        }
-
-        JudgeAccuracy GetAccuracy(float distance)
+        // 如果节奏点还没到达开始判定点，不做任何处理
+            if (transform.position.x < startJudgeX)
         {
-            float judgeRange = judgeWidth;
-
-            if (distance <= judgeRange * 0.2f)
-                return JudgeAccuracy.Perfect;
-            else if (distance <= judgeRange * 0.6f)
-                return JudgeAccuracy.Good;
-            else
-                return JudgeAccuracy.OK;
+            return;
         }
 
-        void OnJudged(JudgeAccuracy accuracy)
+        // 计算判定结果
+        float distanceToJudgeCenter = Mathf.Abs(transform.position.x - judgeArea.position.x);
+
+        if (distanceToJudgeCenter <= judgeWidth)
         {
-            hasBeenJudged = true;
-
-            // 通知PileManager：木桩下降
-            PileManager.Instance.OnHitPile(accuracy);
-
-            // 显示判定文字
-            string text = "";
-            Color color = Color.white;
-
-            switch (accuracy)
-            {
-                case JudgeAccuracy.Perfect:
-                    text = "完美！";
-                    color = Color.yellow;
-                    AudioManager.Instance.PlaySFX(1);// 播放高分音效
-                    break;
-                case JudgeAccuracy.Good:
-                    text = "不错";
-                    color = Color.green;
-                    AudioManager.Instance.PlaySFX(1);// 播放高分音效
-                    break;
-                case JudgeAccuracy.OK:
-                    text = "还行";
-                    color = Color.cyan;
-                    AudioManager.Instance.PlaySFX(2);// 播放低分音效
-                    break;
-            }
-
-            UIManager.Instance.ShowFloatingText(text, color);
-            //UIManager.Instance.UpdateScore(accuracy == JudgeAccuracy.Perfect ? 100 : accuracy == JudgeAccuracy.Good ? 50 : 20); // 更新分数
-            UIManager.Instance.UpdateScore(1); // 更新分数
-
-            // 特效
-            EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
-
-            // 销毁节奏点
-            //Destroy(gameObject);
-
-            sr.sprite = noteSprites[1];
-            sr.maskInteraction = SpriteMaskInteraction.None;
-            StartCoroutine(JumpRetreatDisappear(accuracy));
-            //StartCoroutine(FadeOut());
+            // 在判定区内
+            JudgeAccuracy accuracy = GetAccuracy(distanceToJudgeCenter);
+            OnJudged(accuracy);
         }
-
-        void OnMissed()
-        {
-            if (hasBeenJudged) return;
-
-            hasBeenJudged = true;
-            //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
-            OnNoteMissed?.Invoke(this);
-
-            sr.sprite = noteSprites[2];
-            // 渐隐消失
-            StartCoroutine(FadeOut());
-        }
-
-        IEnumerator FadeOut()// 渐隐消失协程
-        {
-            yield return new WaitForSeconds(destroyDelay); // 等待一段时间后开始渐隐
-
-            float alpha = 1f;
-
-            while (alpha > 0)
-            {
-                alpha -= Time.deltaTime * 3f;
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
-                yield return null;
-            }
-
-            ObjectPoolManager.Instance.ReturnObject(gameObject);
-        }
-
-        IEnumerator JumpRetreatDisappear(JudgeAccuracy accuracy)
-        {
-            //yield return new WaitForSeconds(destroyDelay);
-
-            Vector3 startPos = transform.position;
-            Vector3 endPos = startPos + Vector3.left * retreatDistance; // 向左隐退
-            Vector3 startScale = transform.localScale;
-
-            float jumpBeishu;
-            if(accuracy == JudgeAccuracy.Perfect)
-                jumpBeishu = Random.Range(1.5f, 2f);
-            else if(accuracy == JudgeAccuracy.Good)
-                jumpBeishu = Random.Range(1f, 1.5f);
-            else
-                jumpBeishu = Random.Range(0.5f, 1f);
-
-            float randomJumpHeight = jumpBeishu*jumpHeight;
-            float elapsed = 0f;
-
-            while (elapsed < disappearDuration)
-            {
-                float t = Mathf.Clamp01(elapsed / disappearDuration);
-
-                // X 线性向左退，Y 用正弦曲线制造抛物线跳跃效果
-                float x = Mathf.Lerp(startPos.x, endPos.x, t);
-                float y = startPos.y + Mathf.Sin(t * Mathf.PI) * randomJumpHeight;
-                transform.position = new Vector3(x, y, startPos.z);
-
-                // 透明度从 1 -> 0
-                float alpha = Mathf.Lerp(1f, 0f, t);
-                if (sr != null)
-                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
-
-                // 轻微缩小增加消失感
-                float scale = Mathf.Lerp(1f, 0.85f, t);
-                transform.localScale = startScale * scale;
-
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-        
-
-            ObjectPoolManager.Instance.ReturnObject(gameObject);
-        }
+        // else if (transform.position.x > judgeArea.position.x + judgeWidth)
+        // {
+        //     // 按早了
+        //     hasBeenJudged = true;
+        //     StartCoroutine(FadeOut());
+        //     UIManager.Instance.ShowFloatingText("按早了!", Color.red);
+        // }
+        // 按晚了的情况由上面的OnMissed处理
     }
+
+    JudgeAccuracy GetAccuracy(float distance)
+    {
+        float judgeRange = judgeWidth;
+
+        if (distance <= judgeRange * 0.2f)
+            return JudgeAccuracy.Perfect;
+        else if (distance <= judgeRange * 0.6f)
+            return JudgeAccuracy.Good;
+        else
+            return JudgeAccuracy.OK;
+    }
+
+    void OnJudged(JudgeAccuracy accuracy)
+    {
+        hasBeenJudged = true;
+
+        // 通知PileManager：木桩下降
+        PileManager.Instance.OnHitPile(accuracy);
+
+        // 显示判定文字
+        string text = "";
+        Color color = Color.white;
+
+        switch (accuracy)
+        {
+            case JudgeAccuracy.Perfect:
+                text = "完美！";
+                color = Color.yellow;
+                AudioManager.Instance.PlaySFX(1);// 播放高分音效
+                break;
+            case JudgeAccuracy.Good:
+                text = "不错";
+                color = Color.green;
+                AudioManager.Instance.PlaySFX(1);// 播放高分音效
+                break;
+            case JudgeAccuracy.OK:
+                text = "还行";
+                color = Color.cyan;
+                AudioManager.Instance.PlaySFX(2);// 播放低分音效
+                break;
+        }
+
+        UIManager.Instance.ShowFloatingText(text, color);
+        //UIManager.Instance.UpdateScore(accuracy == JudgeAccuracy.Perfect ? 100 : accuracy == JudgeAccuracy.Good ? 50 : 20); // 更新分数
+        UIManager.Instance.UpdateScore(1); // 更新分数
+
+        // 特效
+        EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
+
+        // 销毁节奏点
+        //Destroy(gameObject);
+
+        sr.sprite = noteSprites[1];
+        sr.maskInteraction = SpriteMaskInteraction.None;
+        StartCoroutine(JumpRetreatDisappear(accuracy));
+        //StartCoroutine(FadeOut());
+    }
+
+    void OnMissed()
+    {
+        if (hasBeenJudged) return;
+
+        hasBeenJudged = true;
+        //UIManager.Instance.ShowFloatingText("错过...", Color.gray);
+        OnNoteMissed?.Invoke(this);
+
+        sr.sprite = noteSprites[2];
+        // 渐隐消失
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()// 渐隐消失协程
+    {
+        yield return new WaitForSeconds(destroyDelay); // 等待一段时间后开始渐隐
+
+        float alpha = 1f;
+
+        while (alpha > 0)
+        {
+            alpha -= Time.deltaTime * 3f;
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+            yield return null;
+        }
+
+        ObjectPoolManager.Instance.ReturnObject(gameObject);
+    }
+
+    IEnumerator JumpRetreatDisappear(JudgeAccuracy accuracy)
+    {
+        //yield return new WaitForSeconds(destroyDelay);
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = startPos + Vector3.right * retreatDistance; // 向右隐退
+        Vector3 startScale = transform.localScale;
+
+        float jumpBeishu;
+        if (accuracy == JudgeAccuracy.Perfect)
+            jumpBeishu = Random.Range(1.5f, 2f);
+        else if (accuracy == JudgeAccuracy.Good)
+            jumpBeishu = Random.Range(1f, 1.5f);
+        else
+            jumpBeishu = Random.Range(0.5f, 1f);
+
+        float randomJumpHeight = jumpBeishu * jumpHeight;
+        float elapsed = 0f;
+
+        while (elapsed < disappearDuration)
+        {
+            float t = Mathf.Clamp01(elapsed / disappearDuration);
+
+            // X 线性向右退，Y 用正弦曲线制造抛物线跳跃效果
+            float x = Mathf.Lerp(startPos.x, endPos.x, t);
+            float y = startPos.y + Mathf.Sin(t * Mathf.PI) * randomJumpHeight;
+            transform.position = new Vector3(x, y, startPos.z);
+
+            // 透明度从 1 -> 0
+            float alpha = Mathf.Lerp(1f, 0f, t);
+            if (sr != null)
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+
+            // 轻微缩小增加消失感
+            float scale = Mathf.Lerp(1f, 0.85f, t);
+            transform.localScale = startScale * scale;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+
+
+        ObjectPoolManager.Instance.ReturnObject(gameObject);
+    }
+}
 
 
