@@ -8,16 +8,29 @@ using Fungus;
 using Newtonsoft.Json;
 public class EndSceneManager : MonoBehaviour
 {
+    public static EndSceneManager Instance{get; private set;}
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }   
+    }
     public SpriteRenderer background;
     public float comeOutSpeedWithFramePercent = 0.5f;
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI afterTextMeshProUGUI;
+    public TextMeshProUGUI endTextMeshProUGUI;
     public string endText;
     public float typeSpeed = 0.05f; // 打字机速度
     public float elementDelay = 0.5f;
 
     public Flowchart flowchart;
 
-    private bool hasEndDialog = false;
+    public bool hasEndDialog = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +40,9 @@ public class EndSceneManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!hasEndDialog&&flowchart.GetBooleanVariable("moveToNextScene"))
+        if (hasEndDialog)
         {
-            hasEndDialog = true;
+            hasEndDialog = false;
             if(SceneTransitionManager.Instance)
             {
                 SceneTransitionManager.Instance.TransitionToScene("EndAnim");
@@ -43,13 +56,14 @@ public class EndSceneManager : MonoBehaviour
 
     void InitElements()
     {
-        text.gameObject.SetActive(false);
+        endTextMeshProUGUI.gameObject.SetActive(false);
+        afterTextMeshProUGUI.gameObject.SetActive(false);
     }
     IEnumerator PlayAnimation()
     {
-        yield return StartCoroutine(TypeText(text, endText));
+        yield return StartCoroutine(TypeText(endTextMeshProUGUI, endText));
         yield return new WaitForSeconds(elementDelay);
-        text.gameObject.SetActive(false);
+        endTextMeshProUGUI.gameObject.SetActive(false);
         background.gameObject.SetActive(true);
         yield return StartCoroutine(ComeOutBackground());
         flowchart.ExecuteBlock("主角对白2");
@@ -86,5 +100,9 @@ public class EndSceneManager : MonoBehaviour
         yield return null;
     }
 
-
+    public void ShowAfterText()
+    {
+        afterTextMeshProUGUI.gameObject.SetActive(true);
+        afterTextMeshProUGUI.GetComponent<Animator>().SetTrigger("shouldPlayAfterText");
+    }
 }
