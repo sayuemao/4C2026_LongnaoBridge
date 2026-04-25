@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class FixGameManager : MonoBehaviour
 {
     public static FixGameManager Instance { get; private set; }
@@ -31,6 +31,7 @@ public class FixGameManager : MonoBehaviour
     }
 
     [SerializeField] private WeatherType currentWeather;
+    public bool levelComplete = false;
 
     private void Awake()
     {
@@ -107,6 +108,7 @@ public class FixGameManager : MonoBehaviour
                 AudioManager.Instance.StopSFXLoop(9); // 停止风声
                 // 所有阶段都已完成
                 Debug.Log("Game Over! You have completed all levels.");
+                LevelComplete();
                 // 在这里可以触发游戏胜利的UI或事件
                 yield break; // 结束协程
         }
@@ -170,5 +172,37 @@ public class FixGameManager : MonoBehaviour
             }
         }
 
+    }
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
+    }
+    public void LevelComplete()
+    {
+        levelComplete = true;
+        Time.timeScale = 0.2f;
+        Debug.Log("Level Complete");
+
+        if (SceneTransitionManager.Instance != null)
+        {
+            // 记录得分
+            // levelData.levelScores[0] = UIManager.Instance.currentScore;
+            // levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
+            SceneTransitionManager.Instance.TransitionToScene("Level3Complete");
+
+        }
+        else
+        {
+            SceneManager.LoadScene("Level3Complete");
+        }
+        
     }
 }

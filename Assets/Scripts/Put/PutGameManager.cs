@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PutGameManager : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class PutGameManager : MonoBehaviour
     public bool isPaused = false;
     public bool isBegin = false;
     public bool isGameOver = false;
+    public bool levelComplete = false;
     public bool finishOverTextShowed = false;
     
 
@@ -62,9 +64,45 @@ public class PutGameManager : MonoBehaviour
         CountDown();
         if (isGameOver)
         {
+            if(!levelComplete)
+            {
+                LevelComplete();
+            }
             return;
         }
         CheckInput();
+    }
+
+
+    public void BackToSelectLevel()
+    {
+        // 返回选择选择界面
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
+    }
+    public void LevelComplete()
+    {
+        levelComplete = true;
+        Time.timeScale = 0.2f;
+        Debug.Log("Level Complete");
+        if (SceneTransitionManager.Instance != null)
+        {
+            // 记录得分
+            // levelData.levelScores[0] = UIManager.Instance.currentScore;
+            // levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
+            SceneTransitionManager.Instance.TransitionToScene("Level2Complete");
+
+        }
+        else
+        {
+            SceneManager.LoadScene("Level2Complete");
+        }
     }
     private void FixedUpdate()
     {

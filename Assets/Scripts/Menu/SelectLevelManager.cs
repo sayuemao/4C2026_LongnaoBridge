@@ -49,11 +49,12 @@ public class SelectLevelManager : MonoBehaviour
                     ExecuteDialog("SelectedNarrator" + DataManager.Instance.levelData.unlockLevelNumber);
                     DataManager.Instance.unLockLevel = false;
                 }
+                else
+                    flowchart.SetBooleanVariable("CharacterDialog1End", true);
             }
             else
-            {
                 flowchart.SetBooleanVariable("CharacterDialog1End", true);
-            }
+            
         }
     }
 
@@ -76,11 +77,14 @@ public class SelectLevelManager : MonoBehaviour
                 ExecuteDialog("SelectedNarrator" + DataManager.Instance.levelData.unlockLevelNumber);
                 DataManager.Instance.unLockLevel = false;
             }
+            else
+            {
+                flowchart.SetBooleanVariable("CharacterDialog1End", true);
+            }
         }
         else
-        {
             flowchart.SetBooleanVariable("CharacterDialog1End", true);
-        }
+        
     }
 
     private void ExecuteDialog(string dialogName)

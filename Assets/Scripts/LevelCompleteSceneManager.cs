@@ -9,6 +9,8 @@ public class LevelCompleteSceneManager : MonoBehaviour
     public LevelData levelData;
     public int nowLevelNumber;
     public bool animComplete = false;
+    public string nextSceneName = "SelectLevel";
+    public bool isTransition = false;
     private void Awake()
     {
         if(Instance == null)
@@ -41,13 +43,26 @@ public class LevelCompleteSceneManager : MonoBehaviour
                 DataManager.Instance.unLockLevel = true;
                 DataManager.Instance.levelData.unlockLevelNumber=Mathf.Min(nowLevelNumber+1,DataManager.Instance.levelData.totalLevelNumber);
             }
-            if(SceneTransitionManager.Instance)
+            if(nowLevelNumber>=DataManager.Instance.levelData.totalLevelNumber)
             {
-                SceneTransitionManager.Instance.TransitionToScene("SelectLevel");
+                nextSceneName = "EndScene";
             }
             else
             {
-                SceneManager.LoadScene("SelectLevel");
+                nextSceneName = "SelectLevel";
+            }
+            if(SceneTransitionManager.Instance&&!isTransition)
+            {
+                isTransition = true;
+                SceneTransitionManager.Instance.TransitionToScene(nextSceneName);         
+            }
+            else
+            {
+                if(!isTransition)
+                {
+                    isTransition = true;
+                    SceneManager.LoadScene(nextSceneName);               
+                } 
             }
         }
     }

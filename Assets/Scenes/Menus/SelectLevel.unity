@@ -1904,7 +1904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3388386293467874005, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width
-      value: 153.40128
+      value: 148.33322
       objectReference: {fileID: 0}
     - target: {fileID: 3388386293467874005, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: commandList.Array.size
@@ -1913,11 +1913,11 @@ PrefabInstance:
     - target: {fileID: 3388386293467874005, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: commandList.Array.data[1]
       value: 
-      objectReference: {fileID: 2088896433}
+      objectReference: {fileID: 586938704}
     - target: {fileID: 3388386293467874005, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: commandList.Array.data[2]
       value: 
-      objectReference: {fileID: 586938704}
+      objectReference: {fileID: 2088896433}
     - target: {fileID: 3456129737016327445, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: portrait
       value: 
@@ -2008,7 +2008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5271987447738666364, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: fadeWhenDone
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5271987447738666364, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: setSayDialog

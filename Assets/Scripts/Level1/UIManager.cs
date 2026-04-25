@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 // UIManager.cs - UI管理
 public class UIManager : MonoBehaviour
 {
@@ -149,13 +150,27 @@ public class UIManager : MonoBehaviour
     public void BackToSelectLevel()
     {
         // 返回选择选择界面
-        GameManager.Instance.BackToSelectLevel();
+        if(GameManager.Instance!=null)
+        {
+            GameManager.Instance.BackToSelectLevel();
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
     }
 
     private void TimeOut()
     {
         // 时间到，结束游戏
-        GameManager.Instance.LevelComplete();
+        if(GameManager.Instance!=null)
+        {
+            GameManager.Instance.LevelComplete();
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectLevel");
+        }
     }
 
     public void SetScoreUIVisible(bool visible)
