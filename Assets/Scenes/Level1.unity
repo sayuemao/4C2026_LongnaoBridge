@@ -519,9 +519,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 674842409910188506, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: storyText
+      value: "\u3000\u3000\u542C\u97F3\u4E50\uFF0C\u6309\u8282\u594F\u70B9\u51FB\u53F3\u4FA7\u7EA2\u8272\u9524\u5B50\u6309\u94AE\u3002\u8DDF\u968F\u8282\u594F\u5F8B\u52A8\u5427\uFF01\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 819981464230875533, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: frameCount.integerVal
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106013521247229127, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -116.771
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106013521247229127, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 10.384
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106013521247229127, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -12.599
       objectReference: {fileID: 0}
     - target: {fileID: 1260804419662781429, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: nodeRect.width

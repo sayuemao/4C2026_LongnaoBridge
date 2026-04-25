@@ -1996,7 +1996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4835893603696426903, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: storyText
-      value: "\u3000\u3000{s=10}\u5F3A\u5149\u892A\u53BB\uFF0C\u963F\u5320\u91CD\u91CD\u6454\u5728\u67D4\u8F6F\u7684\u8349\u5730\u4E0A\uFF0C\u4ED6\u63C9\u7740\u773C\u775B\uFF0C\u8BED\u6C14\u5E26\u7740\u4E00\u4E1D\u61F5\u5708\u548C\u523A\u75DB\n\n"
+      value: "\u3000\u3000{s=10}\u5F3A\u5149\u892A\u53BB\uFF0C\u963F\u5320\u91CD\u91CD\u6454\u5728\u67D4\u8F6F\u7684\u8349\u5730\u4E0A\uFF0C\u4ED6\u63C9\u7740\u773C\u775B\uFF0C\u8BED\u6C14\u5E26\u7740\u4E00\u4E1D\u61F5\u5708\u548C\u523A\u75DB\u3002\n\n"
       objectReference: {fileID: 0}
     - target: {fileID: 4835893603696426903, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: indentLevel
@@ -2128,11 +2128,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7062743609781328664, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: storyText
-      value: "\u3000\u3000{s=10}\u6CA1\u6709\u719F\u6089\u7684\u4E66\u684C\uFF0C\u6CA1\u6709\u6B8B\u7F3A\u7684\u77F3\u6865\u6A21\u578B\uFF0C\u53D6\u800C\u4EE3\u4E4B\u7684\u662F\u8352\u829C\u7684\u6CB3\u6EE9\uFF0C\u5CB8\u8FB9\u6563\u843D\u7740\u5927\u5C0F\u4E0D\u4E00\u7684\u77F3\u6750\uFF0C\u8FDC\u5904\u662F\u873F\u8712\u7684\u4E5D\u66F2\u6CB3\uFF0C\u6CB3\u6C34\u6F7A\u6F7A\u6D41\u6DCC\uFF0C\u5CB8\u8FB9\u7684\u53E4\u6811\u679D\u6860\u4EA4\u9519\uFF0C\u900F\u7740\u4E00\u80A1\u660E\u4EE3\u53E4\u6E21\u53E3\u7684\u6CA7\u6851\u611F\u3002\n\n"
+      value: "{s=10}\u3000\u3000\u6CA1\u6709\u719F\u6089\u7684\u4E66\u684C\uFF0C\u6CA1\u6709\u6B8B\u7F3A\u7684\u77F3\u6865\u6A21\u578B\uFF0C\u53D6\u800C\u4EE3\u4E4B\u7684\u662F\u8352\u829C\u7684\u6CB3\u6EE9\uFF0C\u5CB8\u8FB9\u6563\u843D\u7740\u5927\u5C0F\u4E0D\u4E00\u7684\u77F3\u6750\uFF0C\u8FDC\u5904\u662F\u873F\u8712\u7684\u4E5D\u66F2\u6CB3\uFF0C\u6CB3\u6C34\u6F7A\u6F7A\u6D41\u6DCC\uFF0C\u5CB8\u8FB9\u7684\u53E4\u6811\u679D\u6860\u4EA4\u9519\uFF0C\u900F\u7740\u4E00\u80A1\u660E\u4EE3\u53E4\u6E21\u53E3\u7684\u6CA7\u6851\u611F\u3002\n\n"
       objectReference: {fileID: 0}
     - target: {fileID: 7062743609781328664, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: indentLevel
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903183022559169712, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: storyText
+      value: "{s=10}\u3000\u3000\u4ED6\u7F13\u7F13\u7741\u5F00\u773C\uFF0C\u773C\u524D\u7684\u666F\u8C61\u8BA9\u4ED6\u5F7B\u5E95\u6123\u4F4F\uFF1A\n"
       objectReference: {fileID: 0}
     - target: {fileID: 7903183022559169712, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: indentLevel
@@ -2192,11 +2196,11 @@ PrefabInstance:
       objectReference: {fileID: 987908567}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: selectedBlocks.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: selectedCommands.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8781548924684320696, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: selectedBlocks.Array.data[0]
@@ -2621,7 +2625,7 @@ MonoBehaviour:
   callMode: 0
 --- !u!114 &987908571
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3761,7 +3765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &2088896432
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3779,7 +3783,7 @@ MonoBehaviour:
   durationOLD: 0
 --- !u!114 &2088896433
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
