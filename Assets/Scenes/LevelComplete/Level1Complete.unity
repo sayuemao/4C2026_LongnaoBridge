@@ -366,7 +366,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1117, y: 232.78}
+  m_SizeDelta: {x: 1160, y: 232.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1106075086
 CanvasRenderer:
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n        \u4E00\u9524\u5B9A\u57FA\uFF0C\u5320\u5FC3\u4F20\u97F5\uFF0C\u5C06\u6728\u6869\u7A33\u7A33\u7838\u5165\u6CB3\u5E8A\uFF0C\u7B51\u7262\u4E86\u53E4\u6865\u7684\u6839\u57FA\u3002\u767E\u5E74\u5320\u827A\u85CF\u4E8E\u4E00\u9524\u4E00\u843D\uFF0C\u8FD9\u575A\u5B9E\u7684\u6865\u57FA\uFF0C\u4FBF\u662F\u53E4\u6865\u8DE8\u8D8A\u5C81\u6708\u7684\u5E95\u6C14\uFF0C\u613F\u4F60\u5E26\u7740\u8FD9\u4EFD\u7A33\u624E\u7A33\u6253\u7684\u521D\u5FC3\uFF0C\u7EE7\u7EED\u63A2\u5BFB\u53E4\u6865\u7684\u66F4\u591A\u79D8\u5BC6\u3002"
+  m_text: "\n       \u4E00\u9524\u5B9A\u57FA\uFF0C\u5320\u5FC3\u4F20\u97F5\uFF0C\u5C06\u6728\u6869\u7A33\u7A33\u7838\u5165\u6CB3\u5E8A\uFF0C\u7B51\u7262\u4E86\u53E4\u6865\u7684\u6839\u57FA\u3002\u767E\u5E74\u5320\u827A\u85CF\u4E8E\u4E00\u9524\u4E00\u843D\uFF0C\u8FD9\u575A\u5B9E\u7684\u6865\u57FA\uFF0C\u4FBF\u662F\u53E4\u6865\u8DE8\u8D8A\u5C81\u6708\u7684\u5E95\u6C14\uFF0C\u613F\u4F60\u5E26\u7740\u8FD9\u4EFD\u7A33\u624E\u7A33\u6253\u7684\u521D\u5FC3\uFF0C\u7EE7\u7EED\u63A2\u5BFB\u53E4\u6865\u7684\u66F4\u591A\u79D8\u5BC6\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
   m_sharedMaterial: {fileID: 7406269030783909326, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
@@ -423,14 +423,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.5
-  m_fontSizeBase: 33.5
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 8
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

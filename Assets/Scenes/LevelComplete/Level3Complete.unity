@@ -411,7 +411,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1117, y: 232.78}
+  m_SizeDelta: {x: 1160, y: 232.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1106075086
 CanvasRenderer:
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n        \u5320\u5FC3\u62A4\u6865\uFF0C\u98CE\u96E8\u65E0\u60E7\u4F60\u8BFB\u61C2\u4E86\u53E4\u4EBA\u7684\u9632\u707E\u667A\u6167\uFF0C\u7EC6\u81F4\u6392\u67E5\u9690\u60A3\u3001\u7528\u5FC3\u52A0\u56FA\u6865\u4F53\uFF0C\u8BA9\u53E4\u6865\u62E5\u6709\u4E86\u62B5\u5FA1\u98CE\u96E8\u7684\u529B\u91CF\u3002\u6BCF\u4E00\u6B21\u68C0\u4FEE\u90FD\u662F\u4E0E\u53E4\u4EBA\u7684\u5BF9\u8BDD\uFF0C\u6BCF\u4E00\u5904\u52A0\u56FA\u90FD\u662F\u5BF9\u5320\u827A\u7684\u4F20\u627F\uFF0C\u613F\u8FD9\u5EA7\u53E4\u6865\uFF0C\u8F7D\u7740\u5343\u5E74\u667A\u6167\uFF0C\u7EE7\u7EED\u77D7\u7ACB\u767E\u5E74\u3002"
+  m_text: "\n      \u5320\u5FC3\u62A4\u6865\uFF0C\u98CE\u96E8\u65E0\u60E7\u4F60\u8BFB\u61C2\u4E86\u53E4\u4EBA\u7684\u9632\u707E\u667A\u6167\uFF0C\u7EC6\u81F4\u6392\u67E5\u9690\u60A3\u3001\u7528\u5FC3\u52A0\u56FA\u6865\u4F53\uFF0C\u8BA9\u53E4\u6865\u62E5\u6709\u4E86\u62B5\u5FA1\u98CE\u96E8\u7684\u529B\u91CF\u3002\u6BCF\u4E00\u6B21\u68C0\u4FEE\u90FD\u662F\u4E0E\u53E4\u4EBA\u7684\u5BF9\u8BDD\uFF0C\u6BCF\u4E00\u5904\u52A0\u56FA\u90FD\u662F\u5BF9\u5320\u827A\u7684\u4F20\u627F\uFF0C\u613F\u8FD9\u5EA7\u53E4\u6865\uFF0C\u8F7D\u7740\u5343\u5E74\u667A\u6167\uFF0C\u7EE7\u7EED\u77D7\u7ACB\u767E\u5E74\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
   m_sharedMaterial: {fileID: 7406269030783909326, guid: 245ff2b6e88964a43b858b195a04940e, type: 2}
@@ -468,14 +468,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.5
-  m_fontSizeBase: 33.5
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 8
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -801,7 +801,7 @@ MonoBehaviour:
   levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
   nowLevelNumber: 3
   animComplete: 0
-  nextSceneName: SelectLevel
+  nextSceneName: EndScene
   isTransition: 0
 --- !u!1 &1763467435
 GameObject:

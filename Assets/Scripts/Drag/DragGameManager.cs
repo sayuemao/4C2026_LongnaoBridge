@@ -140,6 +140,11 @@ public class DragGameManager : MonoBehaviour
 
         foreach (var t in FindObjectsOfType<TargetItem>())
             t.ResetSelf();
+
+        if(DataManager.Instance)
+        {
+            DataManager.Instance.nowLevelNumber = 2;
+        }
     }
     public void PauseGame()
     {

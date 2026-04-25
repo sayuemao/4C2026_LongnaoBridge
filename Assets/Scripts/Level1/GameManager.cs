@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
         {
             SceneTransitionManager.Instance.PlayFadeOut();
         }
+        if(DataManager.Instance)
+        {
+            DataManager.Instance.nowLevelNumber = 1;
+        }
     }
 
     // Update is called once per frame

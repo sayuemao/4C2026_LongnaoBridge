@@ -28,6 +28,10 @@ public class SelectLevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(DataManager.Instance)
+        {
+            nowLevelNumber = DataManager.Instance.nowLevelNumber;
+        }
         SelectLevelButton(nowLevelNumber);
         LevelSelectCanvas.gameObject.SetActive(false);
         if (SceneTransitionManager.Instance != null)
@@ -101,32 +105,30 @@ public class SelectLevelManager : MonoBehaviour
     }
     public void SelectLevelButton(int levelNumber)
     {
-        if (levelNumber != nowLevelNumber)
+        if (levelNumber > levelData.unlockLevelNumber)
         {
-            if (levelNumber > levelData.unlockLevelNumber)
-            {
-                return;
-            }
-            levelSelectImage.sprite = levelImages[levelNumber - 1];
-
-            levelNames[nowLevelNumber - 1].gameObject.SetActive(false);
-            levelDescriptions[nowLevelNumber - 1].gameObject.SetActive(false);
-            levelPlayDescriptions[nowLevelNumber - 1].gameObject.SetActive(false);
-
-            levelNames[levelNumber - 1].gameObject.SetActive(true);
-            levelDescriptions[levelNumber - 1].gameObject.SetActive(true);
-            levelPlayDescriptions[levelNumber - 1].gameObject.SetActive(true);
-            nowLevelNumber = levelNumber;
-
-            if (levelNumber == 3)
-            {
-                level3Decoration.gameObject.SetActive(true);
-            }
-            else
-            {
-                level3Decoration.gameObject.SetActive(false);
-            }
+            return;
         }
+        levelSelectImage.sprite = levelImages[levelNumber - 1];
+
+        levelNames[nowLevelNumber - 1].gameObject.SetActive(false);
+        levelDescriptions[nowLevelNumber - 1].gameObject.SetActive(false);
+        levelPlayDescriptions[nowLevelNumber - 1].gameObject.SetActive(false);
+
+        levelNames[levelNumber - 1].gameObject.SetActive(true);
+        levelDescriptions[levelNumber - 1].gameObject.SetActive(true);
+        levelPlayDescriptions[levelNumber - 1].gameObject.SetActive(true);
+        nowLevelNumber = levelNumber;
+
+        if (levelNumber == 3)
+        {
+            level3Decoration.gameObject.SetActive(true);
+        }
+        else
+        {
+            level3Decoration.gameObject.SetActive(false);
+        }
+        
         //更新按钮样式
         for (int i = 0; i < levelButtons.Length; i++)
         {

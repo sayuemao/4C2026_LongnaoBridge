@@ -43,14 +43,14 @@ public class LevelCompleteSceneManager : MonoBehaviour
                 DataManager.Instance.unLockLevel = true;
                 DataManager.Instance.levelData.unlockLevelNumber=Mathf.Min(nowLevelNumber+1,DataManager.Instance.levelData.totalLevelNumber);
             }
-            if(nowLevelNumber>=DataManager.Instance.levelData.totalLevelNumber)
-            {
-                nextSceneName = "EndScene";
-            }
-            else
-            {
-                nextSceneName = "SelectLevel";
-            }
+            // if(nowLevelNumber>=DataManager.Instance.levelData.totalLevelNumber)
+            // {
+            //     nextSceneName = "EndScene";
+            // }
+            // else
+            // {
+            //     nextSceneName = "SelectLevel";
+            // }
             if(SceneTransitionManager.Instance&&!isTransition)
             {
                 isTransition = true;

@@ -66,6 +66,11 @@ public class FixGameManager : MonoBehaviour
 
         ResetHintTimer();
         // 您可以在这里重置其他游戏状态
+
+        if(DataManager.Instance)
+        {
+            DataManager.Instance.nowLevelNumber = 3;
+        }
     }
 
     public void AddError()

@@ -14,6 +14,11 @@ public class DataManager : MonoBehaviour
     public bool hasPlayStartAnim = false;
 
     public bool unLockLevel = false;
+
+    ///<summary>
+    /// 当前关卡编号（仅用于SelectLevel场景，从1开始）
+    ///</summary>
+    public int nowLevelNumber = 1;
     private void Awake()
     {
         if (Instance == null)
