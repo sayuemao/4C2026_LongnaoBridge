@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
 
 
     private bool playA = true;
-
+    public bool stopAllBGM = false;
     private void Awake()
     {
         if (Instance == null)
@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        if (!IsAnyBgmPlaying())
+        if (!IsAnyBgmPlaying() && !stopAllBGM)
         {
             int index = playA ? 0 : 1;
             PlayBGM(index);
@@ -65,8 +65,9 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < bgm.Length; i++)
         {
-            if (bgm[i] != null) bgm[i].Stop();
+            if (bgm[i] != null && bgm[i].isPlaying) bgm[i].Stop();
         }
+        stopAllBGM = true;
     }
     private bool IsAnyBgmPlaying()
     {

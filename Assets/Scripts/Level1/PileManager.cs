@@ -22,7 +22,7 @@ public class PileManager : MonoBehaviour
 
     private int currentPileIndex = 0;     // 当前木桩索引
     private Queue<Transform> pilePool = new Queue<Transform>();     // 木桩对象池
-    private bool isMoving = false;        // 是否正在移动木桩
+    //private bool isMoving = false;        // 是否正在移动木桩
 
     public Shader highlightShader;        // 高亮shader
     private Dictionary<Transform, Material> originalMaterials = new Dictionary<Transform, Material>(); // 保存原始材质
@@ -235,7 +235,7 @@ public class PileManager : MonoBehaviour
     // 移动所有木桩向左的协程
     IEnumerator MoveAllPilesLeft()
     {
-        isMoving = true;
+        //isMoving = true;
 
         List<Vector3> startPositions = new List<Vector3>();
         List<Vector3> targetPositions = new List<Vector3>();
@@ -292,7 +292,7 @@ public class PileManager : MonoBehaviour
         // 更新高亮状态（新木桩生成后）
         HighlightPile();
 
-        isMoving = false;
+        //isMoving = false;
     }
 
     // 检查并销毁超出屏幕左侧的木桩

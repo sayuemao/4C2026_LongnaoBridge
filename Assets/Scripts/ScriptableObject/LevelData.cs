@@ -8,6 +8,7 @@ public class LevelData : ScriptableObject
 {
     public bool hasSet = false;
     public bool isNotFirstGame;
+    [Tooltip("已解锁的关卡数量(默认起始为1)")]
     public int unlockLevelNumber;
     public int totalLevelNumber;
     [Header("是否播放过对应的对话")]
