@@ -45,6 +45,9 @@ namespace Fungus
         [Tooltip("Sound effect to play on user input (e.g. a click)")]
         [SerializeField] protected AudioClip inputSound;
 
+        [Tooltip("Beep播放频率倍率。>1更快，<1更慢")]
+        [SerializeField] protected float beepRateMultiplier = 0.5f;
+
         protected float targetVolume = 0f;
 
         // When true, a beep will be played on every written character glyph
@@ -236,7 +239,7 @@ namespace Fungus
                             targetVolume = volume;
                             targetAudioSource.Play();
 
-                            float extend = targetAudioSource.clip.length;
+                            float extend = targetAudioSource.clip.length / Mathf.Max(0.01f, beepRateMultiplier);
                             nextBeepTime = Time.realtimeSinceStartup + extend;
                         }
                     }
