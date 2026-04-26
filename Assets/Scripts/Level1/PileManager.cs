@@ -64,12 +64,17 @@ public class PileManager : MonoBehaviour
         }
     }
 
-    public void OnHitPile(JudgeAccuracy accuracy)
+    public void OnHitPile(JudgeAccuracy accuracy,float delayTime)
     {
         if (GameManager.Instance.levelComplete)
         {
             return;
         }
+        StartCoroutine(OnHitPileCoroutine(accuracy,delayTime));
+    }
+    IEnumerator OnHitPileCoroutine(JudgeAccuracy accuracy,float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
         // 根据判定决定下降多少
         float downDistance = hitDownAmount;
 
@@ -103,8 +108,8 @@ public class PileManager : MonoBehaviour
             // 当前木桩夯实完成
             OnPileCompleted();
         }
+        yield return null;
     }
-
     IEnumerator MovePileSmooth(Transform pile, float targetY)
     {
         float startY = pile.localPosition.y;

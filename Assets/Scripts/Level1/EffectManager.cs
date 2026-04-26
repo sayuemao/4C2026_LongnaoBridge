@@ -7,7 +7,7 @@ public class EffectManager : MonoBehaviour
 {
     public static EffectManager Instance { get; private set; }
 
-
+    public Animator hammerAnimator;
 
     private void Awake()
     {
@@ -34,5 +34,12 @@ public class EffectManager : MonoBehaviour
     {
         //throw new NotImplementedException();
         Debug.Log("未完成！！！！"+"播放击打特效，位置：" + position + "，判定结果：" + accuracy);
+    }
+
+    public void PlayHammerEffect()
+    {
+        if(hammerAnimator == null) return;
+        hammerAnimator.ResetTrigger("Hammer_UpsAndDown");
+        hammerAnimator.SetTrigger("Hammer_UpsAndDown");
     }
 }

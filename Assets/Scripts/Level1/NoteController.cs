@@ -23,6 +23,7 @@ public class NoteController : MonoBehaviour
 
     public Transform endJudgePoint;
 
+    public float judgeDelay = 0.5f;
     enum JudgeState
     {
         Waiting,        // 还没到判定区
@@ -151,8 +152,7 @@ public class NoteController : MonoBehaviour
     {
         hasBeenJudged = true;
 
-        // 通知PileManager：木桩下降
-        PileManager.Instance.OnHitPile(accuracy);
+        
 
         // 显示判定文字
         string text = "";
@@ -182,8 +182,11 @@ public class NoteController : MonoBehaviour
         UIManager.Instance.UpdateScore(1); // 更新分数
 
         // 特效
-        EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
+        //EffectManager.Instance.PlayHitEffect(transform.position, accuracy);
+        EffectManager.Instance.PlayHammerEffect();
 
+        // 通知PileManager：木桩下降
+        PileManager.Instance.OnHitPile(accuracy, judgeDelay);
         // 销毁节奏点
         //Destroy(gameObject);
 
