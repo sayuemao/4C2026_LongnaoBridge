@@ -38,13 +38,13 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
         if (!IsAnyBgmPlaying() && !stopAllBGM)
-        {
-            int index = playA ? 0 : 1;
+         {
+             int index = playA ? 0 : 1;
             StopAllBGM();
-            stopAllBGM = false;
+             stopAllBGM = false;
             PlayBGM(index);
             playA = !playA;
-        }
+         }
     }
 
     public void PlaySFX(int soundToPlay)
