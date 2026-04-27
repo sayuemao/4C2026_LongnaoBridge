@@ -169,7 +169,7 @@ public class LevelCompleteAnimator : MonoBehaviour
             scoreText.text = "";
             scoreText.gameObject.SetActive(true);
             scoreTextText = "得分：" + LevelCompleteSceneManager.Instance.levelData.levelScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
-            scoreTextText += " 最高："+  LevelCompleteSceneManager.Instance.levelData.levelMaxScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
+            scoreTextText += " 最高：" + LevelCompleteSceneManager.Instance.levelData.levelMaxScores[LevelCompleteSceneManager.Instance.nowLevelNumber - 1];
         }
 
         // 初始化分隔线：仅将fillAmount设为0，不修改任何transform属性

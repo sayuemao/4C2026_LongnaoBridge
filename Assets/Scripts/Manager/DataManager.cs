@@ -31,14 +31,14 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         if (!hasSet)
         {
             Debug.Log("DataManager Start");
             CopyLevelData(originalLevelData, levelData);
             hasSet = true;
         }
-#endif
+//#endif
     }
 
     private void Start()
