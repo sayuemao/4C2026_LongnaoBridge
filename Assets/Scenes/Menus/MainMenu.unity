@@ -267,7 +267,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1600, y: 900}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -678,6 +678,9 @@ MonoBehaviour:
   levelData: {fileID: 11400000, guid: 6c5c5138b5dc0ea4aba71421f77440c2, type: 2}
   originalLevelData: {fileID: 11400000, guid: 89073517027a34a41850a93f65fd79e4, type: 2}
   hasSet: 0
+  hasPlayStartAnim: 0
+  unLockLevel: 0
+  nowLevelNumber: 1
 --- !u!1001 &879394255
 PrefabInstance:
   m_ObjectHideFlags: 0
