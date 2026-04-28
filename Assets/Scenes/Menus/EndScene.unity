@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac5ce55bc698fa4290939ef6e426501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 99
+  itemId: 105
   indentLevel: 0
   display: 2
   stage: {fileID: 0}
@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 100
+  itemId: 106
   indentLevel: 0
   targetObject: {fileID: 1155611020}
   methodName: ShowAfterText

@@ -1582,12 +1582,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c06e42c6f73e60d46b3680b12fd9d18b, type: 3}
-    m_FontSize: 18
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 119
-    m_Alignment: 3
+    m_MaxSize: 300
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1893,6 +1893,10 @@ PrefabInstance:
     - target: {fileID: 1435397343103038698, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: m_Name
       value: Dialoge
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435397343103038698, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1553025527027995838, guid: cc64afcd962701644881a8595d22b0d6, type: 3}
       propertyPath: indentLevel
@@ -3105,7 +3109,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.8
-  m_Text: "\u73A9\u6CD5\uFF1A\n\u6309\u8282\u594F\u70B9\u51FB\u6253\u6869\n\n\u76EE\u6807\uFF1A\n\u9650\u5B9A\u65F6\u95F4\u5185\u7CBE\u51C6\u6253\u6869\uFF0C\u83B7\u53D6\u9AD8\u5206\uFF0C\u7B51\u7262\u53E4\u6865\u5730\u57FA"
+  m_Text: "\u73A9\u6CD5\uFF1A\n\u6309\u8282\u594F\u70B9\u51FB\u6253\u6869\n\u76EE\u6807\uFF1A\n\u9650\u5B9A\u65F6\u95F4\u5185\u7CBE\u51C6\u6253\u6869\uFF0C\u83B7\u53D6\u9AD8\u5206\uFF0C\u7B51\u7262\u53E4\u6865\u5730\u57FA"
 --- !u!222 &1404869846
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4020,7 +4024,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.8
-  m_Text: "\u73A9\u6CD5\uFF1A\n\u9650\u65F6\u8BB0\u5FC6\uFF0C\u7CBE\u51C6\u70B9\u51FB\n\n\u76EE\u6807\uFF1A\n\u5B8C\u6574\u62FC\u51FA\u9F99\u7EB9\u56FE\u6848\uFF0C\u94FA\u597D\u6865\u9762\u77F3\u677F"
+  m_Text: "\u73A9\u6CD5\uFF1A\n\u9650\u65F6\u8BB0\u5FC6\uFF0C\u7CBE\u51C6\u70B9\u51FB\n\u76EE\u6807\uFF1A\n\u5B8C\u6574\u62FC\u51FA\u9F99\u7EB9\u56FE\u6848\uFF0C\u94FA\u597D\u6865\u9762\u77F3\u677F"
 --- !u!222 &2146718019
 CanvasRenderer:
   m_ObjectHideFlags: 0
