@@ -192,7 +192,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u53E4\u6865\u76D1\u6D4B\u30FB\u9632\u707E"
+  m_Text: "\u53E4\u6865\u76D1\u6D4B\xB7\u9632\u707E"
 --- !u!222 &47043818
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1522,7 +1522,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8282\u594F\u6253\u6869\u30FB\u56FA\u57FA"
+  m_Text: "\u8282\u594F\u6253\u6869\xB7\u56FA\u57FA"
 --- !u!1 &948259644
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,7 +2817,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u9F99\u7EB9\u8BB0\u5FC6\u30FB\u94FA\u77F3"
+  m_Text: "\u9F99\u7EB9\u8BB0\u5FC6\xB7\u94FA\u77F3"
 --- !u!222 &1294561095
 CanvasRenderer:
   m_ObjectHideFlags: 0
