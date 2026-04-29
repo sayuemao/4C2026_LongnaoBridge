@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class AudioManager : MonoBehaviour
 {
@@ -15,8 +16,19 @@ public class AudioManager : MonoBehaviour
     private bool playA = true;
     public bool stopAllBGM = false;
 
-    private bool hasFocus = true;
-    private bool wasPausedByFocus = false;
+    private int currentBgmIndex = -1;
+
+    // WebGL：浏览器隐藏/切标签导致的暂停（此时禁止自动切歌）
+    private bool pausedByVisibility = false;
+
+    // 回到前台后短时间抑制自动切歌，避免恢复的那一帧误判
+    [SerializeField] private float suppressDurationOnVisible = 0.5f;
+    private float suppressAutoSwitchUntil = 0f;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void RegisterVisibilityChange(string gameObjectName, string methodName);
+#endif
 
     private void Awake()
     {
@@ -34,19 +46,28 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        RegisterVisibilityChange(gameObject.name, "OnBrowserVisibilityChange");
+#endif
+
         if (!IsAnyBgmPlaying())
         {
             PlayBGM(0);
-            playA = false;
+            playA = false; // A播完下一首切B
         }
     }
 
     void Update()
     {
-        // 失焦时不做自动切歌，避免切屏后误判重复播放
-        if (!hasFocus) return;
         if (stopAllBGM) return;
 
+        // 浏览器隐藏/切屏期间，不允许触发“自动切歌”
+        if (pausedByVisibility) return;
+
+        // 回到前台后短时间抑制（避免那一瞬间 isPlaying=false 误判）
+        if (Time.realtimeSinceStartup < suppressAutoSwitchUntil) return;
+
+        // 自动切歌：仅在“真的没在播”时
         if (!IsAnyBgmPlaying())
         {
             int index = playA ? 0 : 1;
@@ -55,65 +76,46 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationFocus(bool focus)
+    // WebGL 回调：state = "hidden" / "visible"
+    public void OnBrowserVisibilityChange(string state)
     {
-        hasFocus = focus;
-
-        if (!focus)
+        if (state == "hidden")
         {
+            pausedByVisibility = true;
             PauseCurrentBGM();
             return;
         }
 
-        // 回焦后优先恢复，不重新Play
-        if (wasPausedByFocus)
+        if (state == "visible")
         {
-            ResumePausedBGM();
-        }
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        hasFocus = !pauseStatus;
-
-        if (pauseStatus)
-        {
-            PauseCurrentBGM();
-        }
-        else
-        {
-            if (wasPausedByFocus)
-            {
-                ResumePausedBGM();
-            }
+            pausedByVisibility = false;
+            ResumeCurrentBGM();
+            suppressAutoSwitchUntil = Time.realtimeSinceStartup + suppressDurationOnVisible;
         }
     }
 
     private void PauseCurrentBGM()
     {
-        wasPausedByFocus = false;
-
         for (int i = 0; i < bgm.Length; i++)
         {
             if (bgm[i] != null && bgm[i].isPlaying)
             {
+                currentBgmIndex = i;
                 bgm[i].Pause();
-                wasPausedByFocus = true;
+                return;
             }
         }
     }
 
-    private void ResumePausedBGM()
+    private void ResumeCurrentBGM()
     {
-        for (int i = 0; i < bgm.Length; i++)
-        {
-            if (bgm[i] != null && bgm[i].clip != null && !bgm[i].isPlaying && bgm[i].time > 0f)
-            {
-                bgm[i].UnPause();
-            }
-        }
+        if (currentBgmIndex < 0 || currentBgmIndex >= bgm.Length) return;
 
-        wasPausedByFocus = false;
+        AudioSource src = bgm[currentBgmIndex];
+        if (src == null || src.clip == null) return;
+
+        // UnPause 不会重开、不会切歌，只会恢复同一首
+        src.UnPause();
     }
 
     public void PlaySFX(int soundToPlay)
@@ -128,7 +130,7 @@ public class AudioManager : MonoBehaviour
     {
         if (bgmToPlay < 0 || bgmToPlay >= bgm.Length || bgm[bgmToPlay] == null) return;
 
-        // 先停掉其它BGM，避免叠播
+        // 停掉其它BGM，避免叠播
         for (int i = 0; i < bgm.Length; i++)
         {
             if (bgm[i] != null && i != bgmToPlay && bgm[i].isPlaying)
@@ -137,11 +139,11 @@ public class AudioManager : MonoBehaviour
             }
         }
 
+        currentBgmIndex = bgmToPlay;
+
+        bgm[bgmToPlay].Stop();
         bgm[bgmToPlay].volume = bgmVolumn;
-        if (!bgm[bgmToPlay].isPlaying)
-        {
-            bgm[bgmToPlay].Play();
-        }
+        bgm[bgmToPlay].Play();
     }
 
     public void StopAllBGM()
