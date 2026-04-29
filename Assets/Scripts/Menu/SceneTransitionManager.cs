@@ -58,7 +58,7 @@ public class SceneTransitionManager : MonoBehaviour
             yield return null;
         }
         isTransitioning = false;
-
+        Time.timeScale = 1f;
         if (hasReturnedFromOtherScene)
         {
             PlayFadeOut();

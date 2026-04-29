@@ -29,7 +29,11 @@ public class MainMenuController : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        else if (Input.anyKeyDown)
         {
             EnterSelectLevel();
         }
@@ -37,7 +41,7 @@ public class MainMenuController : MonoBehaviour
 
     void EnterSelectLevel()
     {
-        if(!shouldTransitionToAnim)
+        if (!shouldTransitionToAnim)
         {
             SceneTransitionManager.Instance.TransitionToScene(nextSceneName);
         }
