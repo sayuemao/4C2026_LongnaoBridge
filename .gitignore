@@ -25,6 +25,10 @@ desktop.ini
 /[Uu]ser[Ss]ettings/
 *.log
 
+# Allow committing the WebGL build that Netlify serves from /public
+!/public/
+!/public/**
+
 # --- Blender 文件（Unity 支持导入）---
 *.blend1
 *.blend1.meta

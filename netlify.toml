@@ -1,0 +1,78 @@
+[build]
+  publish = "public"
+  command = ""
+
+# ---------------------------------------------------------------------------
+# Unity WebGL on Netlify
+# ---------------------------------------------------------------------------
+# Unity emits compressed bundles (.br / .gz) under /Build/. Netlify serves the
+# files as-is, so we must declare Content-Encoding + the matching Content-Type
+# for each compressed extension. Without these headers the browser receives
+# raw Brotli/Gzip bytes and aborts with "Unable to parse Build/*.framework.js".
+
+# ---------- Brotli compressed ----------
+[[headers]]
+  for = "/Build/*.js.br"
+  [headers.values]
+    Content-Encoding = "br"
+    Content-Type = "application/javascript"
+
+[[headers]]
+  for = "/Build/*.wasm.br"
+  [headers.values]
+    Content-Encoding = "br"
+    Content-Type = "application/wasm"
+
+[[headers]]
+  for = "/Build/*.data.br"
+  [headers.values]
+    Content-Encoding = "br"
+    Content-Type = "application/octet-stream"
+
+[[headers]]
+  for = "/Build/*.symbols.json.br"
+  [headers.values]
+    Content-Encoding = "br"
+    Content-Type = "application/octet-stream"
+
+# ---------- Gzip compressed ----------
+[[headers]]
+  for = "/Build/*.js.gz"
+  [headers.values]
+    Content-Encoding = "gzip"
+    Content-Type = "application/javascript"
+
+[[headers]]
+  for = "/Build/*.wasm.gz"
+  [headers.values]
+    Content-Encoding = "gzip"
+    Content-Type = "application/wasm"
+
+[[headers]]
+  for = "/Build/*.data.gz"
+  [headers.values]
+    Content-Encoding = "gzip"
+    Content-Type = "application/octet-stream"
+
+[[headers]]
+  for = "/Build/*.symbols.json.gz"
+  [headers.values]
+    Content-Encoding = "gzip"
+    Content-Type = "application/octet-stream"
+
+# ---------- Uncompressed fallbacks ----------
+[[headers]]
+  for = "/Build/*.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"
+
+# Unity build artifacts are content-hashed, so they can be cached aggressively.
+[[headers]]
+  for = "/Build/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/StreamingAssets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
