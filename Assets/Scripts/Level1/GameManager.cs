@@ -17,27 +17,47 @@ public class GameManager : MonoBehaviour
 
     public bool startSpawnNotes = false;
     private bool dialogEnd = false;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject); // 保持在场景切换时不被销毁
+            ResetState();
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(gameObject); // 如果已经存在实例，销毁新的对象
+            Destroy(gameObject);
         }
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    public void ResetState()
+    {
+        startSpawnNotes = false;
+        dialogEnd = false;
+        levelComplete = false;
+        pilesCompleted = 0;
+        Time.timeScale = 1f;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        ResetState();
+
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.PlayFadeOut();
         }
-        if(DataManager.Instance)
+        if (DataManager.Instance)
         {
             DataManager.Instance.nowLevelNumber = 1;
         }
@@ -48,30 +68,39 @@ public class GameManager : MonoBehaviour
     {
         if (dialogEnd && Input.anyKeyDown && !startSpawnNotes)
         {
-            UIManager.Instance.startGameText.gameObject.SetActive(false);
-            startSpawnNotes = true;
+            if (UIManager.Instance != null && UIManager.Instance.startGameText != null)
+            {
+                UIManager.Instance.startGameText.gameObject.SetActive(false);
+                startSpawnNotes = true;
+            }
         }
     }
 
     public void DialogEnd()
     {
-        UIManager.Instance.startGameText.gameObject.SetActive(true);
-        dialogEnd = true;
+        if (UIManager.Instance != null && UIManager.Instance.startGameText != null)
+        {
+            UIManager.Instance.startGameText.gameObject.SetActive(true);
+            dialogEnd = true;
+        }
     }
+
     public void LevelComplete()
     {
         levelComplete = true;
         Time.timeScale = 0.2f;
         Debug.Log("Level Complete");
+
         if (pilesCompleted >= pilesShouldComplete)
         {
             if (SceneTransitionManager.Instance != null)
             {
-                // 记录得分
-                levelData.levelScores[0] = UIManager.Instance.currentScore;
-                levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
+                if (UIManager.Instance != null)
+                {
+                    levelData.levelScores[0] = UIManager.Instance.currentScore;
+                    levelData.levelMaxScores[0] = Mathf.Max(levelData.levelScores[0], levelData.levelMaxScores[0]);
+                }
                 SceneTransitionManager.Instance.TransitionToScene("Level1Complete");
-
             }
             else
             {
@@ -86,14 +115,17 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameFailBackToSelectLevel()
     {
-        UIManager.Instance.startGameText.gameObject.SetActive(true);
-        UIManager.Instance.startGameText.text = "再接再厉";
+        if (UIManager.Instance != null && UIManager.Instance.startGameText != null)
+        {
+            UIManager.Instance.startGameText.gameObject.SetActive(true);
+            UIManager.Instance.startGameText.text = "再接再厉";
+        }
         yield return new WaitForSeconds(0.5f);
         BackToSelectLevel();
     }
+
     public void BackToSelectLevel()
     {
-        // 返回选择选择界面
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene("SelectLevel");

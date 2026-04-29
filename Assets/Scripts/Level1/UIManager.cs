@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 // UIManager.cs - UI管理
 public class UIManager : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
     private int maxScore = 9999; // 最大分数
     public int currentScore = 0; // 当前分数
     private bool hasTimedOut = false; // 是否已经超时
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,6 +49,40 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+        if (reflectImageCoroutine != null)
+        {
+            StopCoroutine(reflectImageCoroutine);
+            reflectImageCoroutine = null;
+        }
+    }
+
+    public void ResetUI()
+    {
+        currentScore = 0;
+        hasTimedOut = false;
+        countdownTime = 1f * 60;
+
+        if (scoreText != null)
+        {
+            scoreText.text = "0";
+        }
+        if (countdownText != null)
+        {
+            SetCountdownDisplay(countdownTime);
+        }
+        if (startGameText != null)
+        {
+            startGameText.gameObject.SetActive(false);
+        }
+        SetScoreUIVisible(true);
+    }
+
     void Start()
     {
         if (reflectImage != null)
@@ -54,15 +90,16 @@ public class UIManager : MonoBehaviour
             defaultReflectColor = reflectImage.color;
         }
         countdownTime *= 60;// 转换为秒
+        ResetUI();
         SetCountdownDisplay(countdownTime);
-        scoreText.text = "0";
+        if (scoreText != null) scoreText.text = "0";
     }
 
     private void Update()
     {
         if (useInternalCountdown)
         {
-            if(GameManager.Instance&&!GameManager.Instance.startSpawnNotes)
+            if (GameManager.Instance && !GameManager.Instance.startSpawnNotes)
             {
                 return;
             }
@@ -79,7 +116,7 @@ public class UIManager : MonoBehaviour
         countdownText.text = $"{fenzhong:00}:{sec:00}";
     }
 
-   
+
 
     private void ShowCountdown()
     {
@@ -100,6 +137,7 @@ public class UIManager : MonoBehaviour
         currentScore = Mathf.Min(currentScore + score, maxScore);
         scoreText.text = currentScore.ToString();
     }
+
     public void SetupJudgeBar()
     {
         // 设置判定区域的视觉
@@ -109,6 +147,11 @@ public class UIManager : MonoBehaviour
     public void ShowFloatingText(string text, Color color, Vector3? worldPos = null)
     {
         // 显示判定文字
+        if (floatingTextPrefab == null || floatingTextPosition == null)
+        {
+            return;
+        }
+
         TextMeshProUGUI floatingText = Instantiate(floatingTextPrefab, floatingTextPosition);
         floatingText.text = text;
         floatingText.color = color;
@@ -128,29 +171,41 @@ public class UIManager : MonoBehaviour
     public void ShowMissFeedback()
     {
         // 显示错过反馈
-        ShowFloatingText("Miss", Color.red, missShowPosition.position);
+        ShowFloatingText("Miss", Color.red, missShowPosition?.position);
     }
 
     public void ShowReflectImage(Color color, float duration = 0.5f)
     {
+        if (reflectImage == null)
+        {
+            return;
+        }
+
         if (reflectImageCoroutine != null)
         {
             StopCoroutine(reflectImageCoroutine);
         }
         reflectImageCoroutine = StartCoroutine(ShowReflectImageCoroutine(color, duration));
     }
+
     private IEnumerator ShowReflectImageCoroutine(Color color, float duration = 0.5f)
     {
         // 显示小方块反馈颜色       
-        reflectImage.color = color;
+        if (reflectImage != null)
+        {
+            reflectImage.color = color;
+        }
         yield return new WaitForSeconds(duration);
-        reflectImage.color = defaultReflectColor;
+        if (reflectImage != null)
+        {
+            reflectImage.color = defaultReflectColor;
+        }
     }
 
     public void BackToSelectLevel()
     {
         // 返回选择选择界面
-        if(GameManager.Instance!=null)
+        if (GameManager.Instance != null)
         {
             GameManager.Instance.BackToSelectLevel();
         }
@@ -163,7 +218,7 @@ public class UIManager : MonoBehaviour
     private void TimeOut()
     {
         // 时间到，结束游戏
-        if(GameManager.Instance!=null)
+        if (GameManager.Instance != null)
         {
             GameManager.Instance.LevelComplete();
         }

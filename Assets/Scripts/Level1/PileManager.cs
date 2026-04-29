@@ -64,30 +64,39 @@ public class PileManager : MonoBehaviour
         }
     }
 
-    public void OnHitPile(JudgeAccuracy accuracy,float delayTime)
+    private bool isCurrentPileMoving = false;
+
+    public void OnHitPile(JudgeAccuracy accuracy, float delayTime)
     {
         if (GameManager.Instance.levelComplete)
         {
             return;
         }
-        StartCoroutine(OnHitPileCoroutine(accuracy,delayTime));
+        StartCoroutine(OnHitPileCoroutine(accuracy, delayTime));
     }
-    IEnumerator OnHitPileCoroutine(JudgeAccuracy accuracy,float delayTime)
+
+    IEnumerator OnHitPileCoroutine(JudgeAccuracy accuracy, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
+
+        if (GameManager.Instance.levelComplete)
+        {
+            yield break;
+        }
+
         // 根据判定决定下降多少
         float downDistance = hitDownAmount;
 
         switch (accuracy)
         {
             case JudgeAccuracy.Perfect:
-                downDistance *= 1.5f;  // 完美下降更多
+                downDistance *= 1.5f;
                 break;
             case JudgeAccuracy.Good:
                 downDistance *= 1f;
                 break;
             case JudgeAccuracy.OK:
-                downDistance *= 0.5f;   // 还行下降少
+                downDistance *= 0.5f;
                 break;
         }
 
@@ -99,19 +108,20 @@ public class PileManager : MonoBehaviour
         newHeight = Mathf.Max(newHeight, minHeight);
         pileHeights[currentPileIndex] = newHeight;
 
-        // 更新位置（带动画）
+        // 启动下降动画
         StartCoroutine(MovePileSmooth(currentPile, newHeight));
 
-        // 检查木桩是否完成
-        if (newHeight <= minHeight)
+        // 立即检查是否完成（不等待动画！符合原始设计）
+        if (newHeight <= minHeight && !GameManager.Instance.levelComplete)
         {
-            // 当前木桩夯实完成
             OnPileCompleted();
         }
-        yield return null;
     }
+
     IEnumerator MovePileSmooth(Transform pile, float targetY)
     {
+        isCurrentPileMoving = true;
+
         float startY = pile.localPosition.y;
         float duration = 0.1f;
         float elapsed = 0;
@@ -122,12 +132,17 @@ public class PileManager : MonoBehaviour
             elapsed += delta;
             float t = elapsed / duration;
             float y = Mathf.Lerp(startY, targetY, t);
+
+            // ? 关键修复：只修改Y坐标，保留X和Z不变！
+            // 这样不会与MoveAllPilesLeft的X轴移动冲突
             pile.localPosition = new Vector3(pile.localPosition.x, y, pile.localPosition.z);
             yield return null;
         }
 
-        // 确保精确到达目标位置
+        // 确保精确到达目标Y位置（同样只改Y）
         pile.localPosition = new Vector3(pile.localPosition.x, targetY, pile.localPosition.z);
+
+        isCurrentPileMoving = false;
     }
 
     void OnPileCompleted()
